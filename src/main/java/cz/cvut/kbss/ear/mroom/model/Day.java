@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table
 public class Day extends AbstractEntity {
 
-    @ManyToOne
-    @JoinColumn
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(nullable = false)
     private Week week;
 
     @OneToMany(mappedBy = "day", cascade = {CascadeType.ALL}, orphanRemoval = true)

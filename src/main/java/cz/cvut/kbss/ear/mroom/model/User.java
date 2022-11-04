@@ -1,26 +1,34 @@
 package cz.cvut.kbss.ear.mroom.model;
 
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "User")
+@Table(name = "user")
 public class User extends AbstractEntity {
 
-    @Column(nullable = false)
+    @Basic
+    @Column(nullable = false, unique = true)
     private String email;
 
+    @Basic
     @Column(nullable = false)
     private String firstName;
 
+    @Basic
     @Column(nullable = false)
     private String lastName;
 
+    @Basic
     @Column(nullable = false)
     private String password;
 
+    @Basic
     @Column(nullable = false)
     private double money;
 
@@ -34,12 +42,10 @@ public class User extends AbstractEntity {
         this.password = password;
     }
 
-    public void putMoneyIn(double amount){
-        this.money += money;
-    }
+    public void erasePassword(){this.password=null;}
 
-    public void pay(double amount) {
-        return;
+    public void encodePassword(PasswordEncoder encoder) {
+        this.password = encoder.encode(password);
     }
 
     public String getEmail() {
