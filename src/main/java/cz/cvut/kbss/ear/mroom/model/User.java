@@ -3,13 +3,13 @@ package cz.cvut.kbss.ear.mroom.model;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "user")
+@NamedQueries({
+        @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email")
+})
 public class User extends AbstractEntity {
 
     @Basic
