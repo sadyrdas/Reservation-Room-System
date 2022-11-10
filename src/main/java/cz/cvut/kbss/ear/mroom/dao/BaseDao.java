@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
-public class BaseDao<T> implements GenericDao<T> {
+public abstract class BaseDao<T> implements GenericDao<T> {
     @PersistenceContext
     protected EntityManager em;
 

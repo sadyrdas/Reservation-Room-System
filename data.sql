@@ -1,11 +1,11 @@
-CREATE TABLE User
+CREATE TABLE users
 (
     id        integer      NOT NULL PRIMARY KEY,
     email     varchar(255) not null,
     firstname varchar(255) not null,
     lastname  varchar(255) not null,
     password  varchar(255) not null,
-    money     double       not null
+    money     double PRECISION      not null
 );
 CREATE TABLE Admin
 (
@@ -19,7 +19,7 @@ CREATE TABLE StudyRoom
 (
     id          integer      NOT NULL PRIMARY KEY,
     capacity    integer      not null,
-    price       double       not null,
+    price       double PRECISION       not null,
     reservation varchar(255) not null
 );
 
