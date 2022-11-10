@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Objects;
 
 public abstract class BaseDao<T> implements GenericDao<T> {
-    @PersistenceContext
+    @PersistenceContext(name = "jpa-unit")
     protected EntityManager em;
 
     protected final Class<T> type;

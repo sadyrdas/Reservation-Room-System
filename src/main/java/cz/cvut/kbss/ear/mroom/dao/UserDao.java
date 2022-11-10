@@ -4,6 +4,7 @@ import cz.cvut.kbss.ear.mroom.model.User;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.NoResultException;
+import java.util.List;
 
 @Repository
 public class UserDao extends BaseDao<User> {
@@ -19,5 +20,9 @@ public class UserDao extends BaseDao<User> {
         } catch (NoResultException e) {
             return null;
         }
+    }
+
+    public List<User> getAllUsers() {
+        return findAll();
     }
 }
