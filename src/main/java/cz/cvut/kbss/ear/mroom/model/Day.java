@@ -8,9 +8,9 @@ import java.util.List;
 @Table
 public class Day extends AbstractEntity {
 
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(nullable = false)
-    private Week week;
+//    @ManyToOne(cascade = CascadeType.MERGE)
+//    @JoinColumn(nullable = false)
+//    private Week week;
 
     @OrderBy(value = "num_of_day")
     @OneToMany(mappedBy = "day", cascade = {CascadeType.ALL}, orphanRemoval = true)

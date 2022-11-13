@@ -14,9 +14,9 @@ public class StudyRoom extends AbstractEntity{
     @Basic(optional = false)
     private String reservation;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, orphanRemoval = true)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Week week;
+
+    @OneToOne()
+    private User user;
 
 
     public StudyRoom(int capacity, double price, String reservation) {

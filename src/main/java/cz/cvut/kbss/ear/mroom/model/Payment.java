@@ -4,6 +4,9 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "payment")
+@NamedQueries({
+        @NamedQuery(name = "Payment.findById", query = "SELECT p FROM Payment p WHERE p.id = :id")
+})
 public class Payment extends AbstractEntity {
     @Basic
     @Column(nullable = false)
