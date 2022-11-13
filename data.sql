@@ -72,7 +72,7 @@ CREATE TABLE Payment
 (
     id            integer      NOT NULL PRIMARY KEY,
     paymentMethod varchar(255) NOT NULL,
-    status        BIT          NOT NULL,
+    status        boolean         NOT NULL,
     moneyToPay    integer not null,
     userId        integer not null ,
     CONSTRAINT payment_fk_users FOREIGN KEY (userId) references users (id)

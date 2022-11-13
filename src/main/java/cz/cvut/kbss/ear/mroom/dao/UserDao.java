@@ -35,6 +35,25 @@ public class UserDao extends BaseDao<User> {
         }
     }
 
+    @Transactional
+    public Boolean deleteUserByEmail(String email) {
+        try {
+            int rowUpdated =  em.createNamedQuery("User.deleteByEmail", User.class)
+                    .setParameter("email", email).executeUpdate();
+
+            return rowUpdated != 0;
+        } catch (NoResultException e) {
+            return null;
+        }
+
+    }
+
+    @Transactional
+    public void updateUserByEmail(String oldEmail, String newEmail) {
+        User user = findByEmail(oldEmail);
+        user.setEmail(newEmail);
+    }
+
     public List<User> getAllUsers() {
         return findAll();
     }

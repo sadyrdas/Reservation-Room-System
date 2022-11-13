@@ -1,9 +1,6 @@
 package cz.cvut.kbss.ear.mroom.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Set;
 
 @Entity
@@ -12,6 +9,11 @@ public class UserRole extends AbstractEntity {
 
     @Basic(optional = false)
     private String name;
+
+    @Basic(optional = false)
+    @Column
+    private int role_id;
+
 
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;

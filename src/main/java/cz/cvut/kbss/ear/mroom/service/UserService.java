@@ -44,4 +44,35 @@ public class UserService {
 
         return ret;
     }
+
+    @Transactional
+    public Boolean deleteUserByEmail(String email) {
+        Objects.requireNonNull(email);
+
+        Boolean result = false;
+        if(email.isEmpty()) {
+            return result;
+        }else if (userDao.findByEmail(email) == null){
+            return result;
+        }else {
+            userDao.deleteUserByEmail(email);
+        }
+        return true;
+    }
+
+    @Transactional
+    public Boolean updateUserByEmail(String oldEmail, String newEmail) {
+        Objects.requireNonNull(oldEmail);
+        Boolean result = false;
+        if(oldEmail.isEmpty()) {
+            return result;
+        }else if (userDao.findByEmail(oldEmail) == null){
+            return result;
+        }else {
+            userDao.updateUserByEmail(oldEmail,newEmail);
+        }
+        return true;
+    }
+
+
 }

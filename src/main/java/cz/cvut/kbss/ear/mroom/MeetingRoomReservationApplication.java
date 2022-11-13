@@ -51,10 +51,9 @@ public class MeetingRoomReservationApplication {
     @GetMapping
     public List<User> hello() {
         UserService userService = new UserService(userDao);
-        userService.createUser("test3@test.test", "Test", "Test", "1234");
-        userService.createUser("test4@test.test", "Test", "Test", "1234");
-        userService.createUser("test5@test.test", "Test", "Test", "1234");
+        userService.updateUserByEmail("test7@test.test", "test25@test.test");
         return userDao.getAllUsers();
     }
+
 
 }
