@@ -51,7 +51,7 @@ public class MeetingRoomReservationApplication {
     @GetMapping
     public List<User> hello() {
         UserService userService = new UserService(userDao);
-        userService.updateUserByEmail("test7@test.test", "test25@test.test");
+        userService.updateUserEmailByEmail("test7@test.test", "test25@test.test");
         return userDao.getAllUsers();
     }
 
