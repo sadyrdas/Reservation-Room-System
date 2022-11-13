@@ -1,20 +1,38 @@
+CREATE TABLE user_roles
+(
+    role_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    CONSTRAINT pk_user_roles PRIMARY KEY (role_id, user_id)
+);
+
+CREATE TABLE roles
+(
+    id   INTEGER  NOT NULL PRIMARY KEY,
+    name VARCHAR(255)
+);
+
+
 CREATE TABLE users
 (
-    id        integer      NOT NULL PRIMARY KEY,
-    email     varchar(255) not null,
-    firstname varchar(255) not null,
-    lastname  varchar(255) not null,
-    password  varchar(255) not null,
-    money     double PRECISION      not null
+    id         INTEGER PRIMARY KEY                      NOT NULL,
+    email      VARCHAR(255) UNIQUE                      NOT NULL,
+    first_name VARCHAR(255)                             NOT NULL,
+    last_name  VARCHAR(255)                             NOT NULL,
+    password   VARCHAR(255)                             NOT NULL,
+    money      DOUBLE PRECISION                         NOT NULL
 );
-CREATE TABLE Admin
+
+ALTER TABLE user_roles
+    ADD CONSTRAINT fk_userol_on_user FOREIGN KEY (user_id) REFERENCES users (id);
+
+ALTER TABLE user_roles
+    ADD CONSTRAINT fk_userol_on_user_role FOREIGN KEY (role_id) REFERENCES roles (id);
+CREATE TABLE roles
 (
-    id        integer      NOT NULL PRIMARY KEY,
-    email     varchar(255) not null,
-    firstname varchar(255) not null,
-    lastname  varchar(255) not null,
-    password  varchar(255) not null
+    id   INTEGER  NOT NULL PRIMARY KEY,
+    name VARCHAR(255)
 );
+
 CREATE TABLE StudyRoom
 (
     id          integer      NOT NULL PRIMARY KEY,
@@ -22,6 +40,7 @@ CREATE TABLE StudyRoom
     price       double PRECISION       not null,
     reservation varchar(255) not null
 );
+
 
 CREATE TABLE Slot
 (
