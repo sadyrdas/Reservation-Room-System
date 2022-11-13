@@ -19,11 +19,11 @@ public class User extends AbstractEntity {
 
     @Basic
     @Column(nullable = false)
-    private String firstname;
+    private String first_name;
 
     @Basic
     @Column(nullable = false)
-    private String lastname;
+    private String last_name;
 
     @Basic
     @Column(nullable = false)
@@ -41,18 +41,19 @@ public class User extends AbstractEntity {
     )
     private Set<UserRole> roles;
 
-    @OneToMany(mappedBy = "users")
-    private Set<Payment> payments;
+//    @OneToMany(mappedBy = "id")
+//    private Set<Payment> payment;
 
 
     public User() {
     }
 
-    public User(String email, String first_name, String last_name, String password) {
+    public User(String email, String first_name, String last_name, String password, Set<Payment> payments) {
         this.email = email;
-        this.firstname = first_name;
-        this.lastname = last_name;
+        this.first_name = first_name;
+        this.last_name = last_name;
         this.password = password;
+//        this.payment = payments;
     }
 
     public void erasePassword(){this.password=null;}
@@ -66,11 +67,11 @@ public class User extends AbstractEntity {
     }
 
     public String getFirst_name() {
-        return firstname;
+        return first_name;
     }
 
     public String getLast_name() {
-        return lastname;
+        return last_name;
     }
 
     public String getPassword() {
@@ -86,11 +87,11 @@ public class User extends AbstractEntity {
     }
 
     public void setFirst_name(String firstName) {
-        this.firstname = firstName;
+        this.first_name = firstName;
     }
 
     public void setLast_name(String lastName) {
-        this.lastname = lastName;
+        this.last_name = lastName;
     }
 
     public void setPassword(String password) {

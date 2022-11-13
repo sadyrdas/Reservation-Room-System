@@ -3,7 +3,7 @@ package cz.cvut.kbss.ear.mroom.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "payments")
+@Table(name = "payment")
 public class Payment extends AbstractEntity {
     @Basic
     @Column(nullable = false)
@@ -14,7 +14,7 @@ public class Payment extends AbstractEntity {
     private Boolean status;
 
     @ManyToOne
-    @JoinColumn(name="id", nullable = false)
+    @JoinColumn(name="userid", nullable = false)
     private User user;
 
     public Payment(String paymentMethod, Boolean status) {

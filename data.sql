@@ -20,6 +20,7 @@ CREATE TABLE users
     last_name  VARCHAR(255)                             NOT NULL,
     password   VARCHAR(255)                             NOT NULL,
     money      DOUBLE PRECISION                         NOT NULL
+--     CONSTRAINT users_fk_payment foreign key (payment) references Payment (id)
 );
 
 ALTER TABLE user_roles
@@ -69,5 +70,8 @@ CREATE TABLE Payment
 (
     id            integer      NOT NULL PRIMARY KEY,
     paymentMethod varchar(255) NOT NULL,
-    status        BIT          NOT NULL
+    status        BIT          NOT NULL,
+    moneyToPay    integer not null,
+    userId        integer not null ,
+    CONSTRAINT payment_fk_users FOREIGN KEY (userId) references users (id)
 );
