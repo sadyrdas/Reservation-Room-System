@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS users, roles, user_roles, payment;
+
 CREATE TABLE user_roles
 (
     role_id INTEGER NOT NULL,

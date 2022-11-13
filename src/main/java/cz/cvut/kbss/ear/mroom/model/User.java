@@ -9,7 +9,7 @@ import java.util.Set;
 @Entity
 @Table(name = "users")
 @NamedQueries({
-        @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email")
+        @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
 })
 public class User extends AbstractEntity {
 
@@ -48,12 +48,12 @@ public class User extends AbstractEntity {
     public User() {
     }
 
-    public User(String email, String first_name, String last_name, String password, Set<Payment> payments) {
+    public User(String email, String first_name, String last_name, String password) {
         this.email = email;
         this.first_name = first_name;
         this.last_name = last_name;
         this.password = password;
-//        this.payment = payments;
+        this.money = 0.0;
     }
 
     public void erasePassword(){this.password=null;}

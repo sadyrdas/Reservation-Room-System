@@ -6,6 +6,7 @@ import cz.cvut.kbss.ear.mroom.dao.UserDao;
 import cz.cvut.kbss.ear.mroom.model.Payment;
 import cz.cvut.kbss.ear.mroom.model.StudyRoom;
 import cz.cvut.kbss.ear.mroom.model.User;
+import cz.cvut.kbss.ear.mroom.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -49,6 +50,10 @@ public class MeetingRoomReservationApplication {
 
     @GetMapping
     public List<User> hello() {
+        UserService userService = new UserService(userDao);
+        userService.createUser("test3@test.test", "Test", "Test", "1234");
+        userService.createUser("test4@test.test", "Test", "Test", "1234");
+        userService.createUser("test5@test.test", "Test", "Test", "1234");
         return userDao.getAllUsers();
     }
 
