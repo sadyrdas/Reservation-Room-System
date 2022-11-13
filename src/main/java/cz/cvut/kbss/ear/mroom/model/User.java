@@ -19,11 +19,11 @@ public class User extends AbstractEntity {
 
     @Basic
     @Column(nullable = false)
-    private String firstName;
+    private String firstname;
 
     @Basic
     @Column(nullable = false)
-    private String lastName;
+    private String lastname;
 
     @Basic
     @Column(nullable = false)
@@ -48,10 +48,10 @@ public class User extends AbstractEntity {
     public User() {
     }
 
-    public User(String email, String firstName, String lastName, String password) {
+    public User(String email, String first_name, String last_name, String password) {
         this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.firstname = first_name;
+        this.lastname = last_name;
         this.password = password;
     }
 
@@ -65,12 +65,12 @@ public class User extends AbstractEntity {
         return email;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getFirst_name() {
+        return firstname;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getLast_name() {
+        return lastname;
     }
 
     public String getPassword() {
@@ -85,12 +85,12 @@ public class User extends AbstractEntity {
         this.email = email;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFirst_name(String firstName) {
+        this.firstname = firstName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLast_name(String lastName) {
+        this.lastname = lastName;
     }
 
     public void setPassword(String password) {
