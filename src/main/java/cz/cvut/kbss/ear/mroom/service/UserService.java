@@ -42,7 +42,7 @@ public class UserService {
             userDao.createNewUser(new User(email, first_name, last_name, password));
         }
 
-        return ret;
+        return true;
     }
 
     @Transactional
