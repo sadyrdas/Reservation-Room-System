@@ -13,7 +13,10 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringRunner;
 
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @ComponentScan(basePackageClasses = MeetingRoomReservationApplication.class)
@@ -32,12 +35,68 @@ public class UserServiceTest {
     @Test
     public void createUserTest() {
         final User user = Generator.generateUser();
-        System.out.println(user.getEmail());
         Boolean result = userService.createUser(user.getEmail(), user.getFirst_name(), user.getLast_name(),
                 user.getPassword());
 
         assertEquals(true, result);
-//        System.out.println(user.getEmail());
         assertEquals(user.getEmail(), userDao.findByEmail(user.getEmail()).getEmail());
+    }
+
+    @Test
+    public void createAlreadyExistentUserTest() {
+        final User user = Generator.generateUser();
+        Boolean result = userService.createUser(user.getEmail(), user.getFirst_name(), user.getLast_name(),
+                user.getPassword());
+
+        assertEquals(true, result);
+        // Service return false in case of already exsistent user
+        assertFalse(userService.createUser(user.getEmail(), user.getFirst_name(), user.getLast_name(),
+                user.getPassword()));
+    }
+
+    @Test
+    public void deleteUserTest() {
+        final List<User> users = new ArrayList<>();
+
+        for (int i = 0; i < 5; i++) {
+            final User user = Generator.generateUser();
+            users.add(user);
+            em.persist(user);
+        }
+
+        final User user = Generator.generateUser();
+        users.add(user);
+        em.persist(user);
+
+        assertEquals(users.size(), userDao.getAllUsers().size());
+        assertEquals(userDao.findByEmail(user.getEmail()).getEmail(), user.getEmail());
+        userService.deleteUserByEmail(user.getEmail());
+        assertEquals(users.size() - 1, userDao.getAllUsers().size());
+        assertNull( userDao.findByEmail(user.getEmail()));
+    }
+
+    @Test
+    public void tryDeleteNotExistentUserTest() {
+        final List<User> users = new ArrayList<>();
+
+        for (int i = 0; i < 5; i++) {
+            final User user = Generator.generateUser();
+            users.add(user);
+            em.persist(user);
+        }
+
+        assertEquals(users.size(), userDao.getAllUsers().size());
+        assertFalse(userService.deleteUserByEmail("notExistent@no.no"));
+        assertEquals(users.size(), userDao.getAllUsers().size());
+    }
+
+    @Test
+    public void updateUserTest() {
+        final User user = Generator.generateUser();
+        em.persist(user);
+
+        assertEquals(userDao.findByEmail(user.getEmail()).getEmail(), user.getEmail());
+        userService.updateUserEmailByEmail(user.getEmail(), "updated@email.com");
+        assertEquals("updated@email.com", user.getEmail());
     }
 }

@@ -61,7 +61,7 @@ public class UserService {
     }
 
     @Transactional
-    public Boolean updateUserByEmail(String oldEmail, String newEmail) {
+    public Boolean updateUserEmailByEmail(String oldEmail, String newEmail) {
         Objects.requireNonNull(oldEmail);
         Boolean result = false;
         if(oldEmail.isEmpty()) {
