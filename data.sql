@@ -13,6 +13,12 @@ CREATE TABLE roles
     name VARCHAR(255)
 );
 
+CREATE TABLE daysOfWeek
+(
+    number integer not null unique ,
+    name varchar(255) unique
+);
+
 
 CREATE TABLE users
 (
@@ -48,22 +54,28 @@ CREATE TABLE StudyRoom
 CREATE TABLE Slot
 (
     id        integer      NOT NULL PRIMARY KEY,
-    available BIT          NOT NULL,
-    day       varchar(255) NOT NULL,
-    CONSTRAINT slot_fk_day FOREIGN KEY (day) references Day (name)
+    available Boolean      NOT NULL,
+    start     varchar(255) NOT NULL,
+    finish    varchar(255) NOT NULL ,
+    amountOfSlotForDay integer NOT NULL ,
+    num_of_day integer NOT NULL  ,
+    CONSTRAINT slot_fk_day FOREIGN KEY (num_of_day) references Day (number)
 );
 CREATE TABLE Day
 (
     id   integer      NOT NULL PRIMARY KEY,
     name varchar(255) NOT NULL,
     week varchar (255) NOT NULL,
-    CONSTRAINT day_fk_week FOREIGN KEY (week) references Week (numberOfWeek)
+    amountOfSlot integer NOT NULL ,
+    number integer NOT NULL ,
+    CONSTRAINT day_fk_week FOREIGN KEY (week) references Week (numberOfWeek),
+    CONSTRAINT day_fk_slot FOREIGN KEY (amountOfSlot) references Slot (amountOfSlotForDay)
 );
 
 CREATE TABLE Week
 (
     id integer NOT NULL PRIMARY KEY ,
-    numberOfWeek integer NOT NULL
+    numberOfWeek integer NOT NULL UNIQUE
 
 
 );

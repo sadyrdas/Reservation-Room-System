@@ -15,23 +15,23 @@ import java.util.Set;
 })
 public class User extends AbstractEntity {
 
-    @Basic
+    @Basic(optional = false)
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Basic
+    @Basic(optional = false)
     @Column(nullable = false)
     private String first_name;
 
-    @Basic
+    @Basic(optional = false)
     @Column(nullable = false)
     private String last_name;
 
-    @Basic
+    @Basic(optional = false)
     @Column(nullable = false)
     private String password;
 
-    @Basic
+    @Basic(optional = false)
     @Column(nullable = false)
     private double money;
 

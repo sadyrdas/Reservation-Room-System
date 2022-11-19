@@ -8,11 +8,15 @@ import javax.persistence.*;
         @NamedQuery(name = "Payment.findById", query = "SELECT p FROM Payment p WHERE p.id = :id")
 })
 public class Payment extends AbstractEntity {
-    @Basic
+    @Basic(optional = false)
     @Column(nullable = false)
     private String paymentMethod;
 
-    @Basic
+    @Basic(optional = false)
+    @Column(nullable = false)
+    private int moneyToPay;
+
+    @Basic(optional = false)
     @Column(nullable = false)
     private Boolean status;
 
@@ -20,12 +24,46 @@ public class Payment extends AbstractEntity {
     @JoinColumn(name="userid", nullable = false)
     private User user;
 
-    public Payment(String paymentMethod, Boolean status) {
+    public Payment(String paymentMethod, Boolean status, Integer moneyToPay, User userId) {
         this.paymentMethod = paymentMethod;
         this.status = status;
+        this.moneyToPay = moneyToPay;
+        this.user = userId;
     }
 
     public Payment() {
 
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
+
+    public Integer getUser() {
+        return user.getId();
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public int getMoneyToPay() {
+        return moneyToPay;
+    }
+
+    public void setMoneyToPay(int moneyToPay) {
+        this.moneyToPay = moneyToPay;
     }
 }
