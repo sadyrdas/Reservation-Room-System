@@ -89,3 +89,4 @@ CREATE TABLE Payment
     userId        integer not null ,
     CONSTRAINT payment_fk_users FOREIGN KEY (userId) references users (id)
 );
+

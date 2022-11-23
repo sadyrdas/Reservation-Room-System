@@ -24,16 +24,21 @@ public class Payment extends AbstractEntity {
     @JoinColumn(name="userid", nullable = false)
     private User user;
 
+    @OneToOne(mappedBy = "payment_id")
+    private Slot slot;
+
     public Payment(String paymentMethod, Boolean status, Integer moneyToPay, User userId) {
         this.paymentMethod = paymentMethod;
         this.status = status;
         this.moneyToPay = moneyToPay;
         this.user = userId;
+
     }
 
     public Payment() {
 
     }
+
 
     public String getPaymentMethod() {
         return paymentMethod;
