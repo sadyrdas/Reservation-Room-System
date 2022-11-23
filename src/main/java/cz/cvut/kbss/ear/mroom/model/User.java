@@ -43,8 +43,7 @@ public class User extends AbstractEntity {
     )
     private Set<UserRole> roles;
 
-//    @OneToMany(mappedBy = "id")
-//    private Set<Payment> payment;
+
 
 
     public User() {

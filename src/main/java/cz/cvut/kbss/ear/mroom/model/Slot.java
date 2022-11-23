@@ -73,6 +73,5 @@ public class Slot extends AbstractEntity {
         this.num_of_day = num_of_day;
 
     }
-    @OneToOne
-    private Payment payment_id;
+
 }
