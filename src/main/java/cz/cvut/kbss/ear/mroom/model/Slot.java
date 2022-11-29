@@ -10,10 +10,13 @@ public class Slot extends AbstractEntity {
     @Column(nullable = false)
     private Boolean isAvailable;
 
+    @Basic(optional = false)
+    @Column(nullable = false)
+    private Double price;
 
-
-    private DaysOfWeek num_of_day;
-
+    @Basic(optional = false)
+    @Column(nullable = false)
+    private boolean paid;
 
     @Basic(optional = false)
     @Column(nullable = false)
@@ -23,16 +26,13 @@ public class Slot extends AbstractEntity {
     @Column(nullable = false)
     private String finish;
 
-    @Basic(optional = false)
-    @Column(nullable = false)
-    private int amountOfSlotForDay;
 
-    public Slot(String start, String finish, Boolean isAvailable, Day nameOfDay, DaysOfWeek num_of_day, int amountOfSlotForDay) {
+    public Slot(String start, String finish, Boolean isAvailable, Double price, boolean paid) {
         this.start = start;
         this.finish = finish;
-        this.isAvailable = isAvailable;
-        this.num_of_day = num_of_day;
-        this.amountOfSlotForDay = amountOfSlotForDay;
+        this.isAvailable = true;
+        this.paid = false;
+        this.price = price;
     }
     
     
@@ -65,13 +65,19 @@ public class Slot extends AbstractEntity {
         this.finish = finish;
     }
 
-    public DaysOfWeek getNum_of_day(){
-        return num_of_day;
+    public Double getPrice() {
+        return price;
     }
 
-    public void setNum_of_day(DaysOfWeek num_of_day){
-        this.num_of_day = num_of_day;
-
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
+    public boolean isPaid() {
+        return paid;
+    }
+
+    public void setPaid(boolean paid) {
+        this.paid = paid;
+    }
 }

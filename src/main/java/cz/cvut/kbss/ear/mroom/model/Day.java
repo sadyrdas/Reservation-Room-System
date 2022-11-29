@@ -1,40 +1,30 @@
 package cz.cvut.kbss.ear.mroom.model;
 
 import javax.persistence.*;
-import java.util.List;
+import java.sql.Date;
+
 
 @Entity
 @Table
 public class Day extends AbstractEntity {
 
-    @ManyToOne(cascade = CascadeType.MERGE)
-    private Week week;
-
-
-
-
     @Basic(optional = false)
     @Column(nullable = false)
-    private String name;
+    private Date posting_date;
 
-    @OneToMany
-    private List<Slot> AmountOfSlot;
-
-    public Day(Week week, String name, List<Slot> amountOfSlot) {
-        this.week = week;
-        this.name = name;
-        AmountOfSlot = amountOfSlot;
+    public Day(Date posting_date) {
+        this.posting_date = posting_date;
     }
 
     public Day() {
     }
 
-    public String getName() {
-        return name;
+
+    public Date getPosting_date() {
+        return posting_date;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPosting_date(Date posting_date) {
+        this.posting_date = posting_date;
     }
-
 }

@@ -35,13 +35,7 @@ public class User extends AbstractEntity {
     @Column(nullable = false)
     private double money;
 
-    @ManyToMany(cascade = CascadeType.MERGE)
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
-    )
-    private Set<UserRole> roles;
+
 
 
 

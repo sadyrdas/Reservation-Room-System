@@ -1,25 +1,32 @@
 package cz.cvut.kbss.ear.mroom.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+
 
 @Entity
 @Table
 public class StudyRoom extends AbstractEntity{
     @Basic(optional = false)
+    @Column(nullable = false)
     private int capacity;
+
+
     @Basic(optional = false)
+    @Column(nullable = false)
     private double price;
+
+
     @Basic(optional = false)
-    private String reservation;
+    @Column(nullable = false)
+    private Integer reservation;
 
 
     @OneToOne()
     private User user;
 
 
-    public StudyRoom(int capacity, double price, String reservation) {
+    public StudyRoom(int capacity, double price, Integer reservation) {
         this.capacity = capacity;
         this.price = price;
         this.reservation = reservation;
@@ -44,11 +51,11 @@ public class StudyRoom extends AbstractEntity{
         this.price = price;
     }
 
-    public String getReservation() {
+    public Integer getReservation() {
         return reservation;
     }
 
-    public void setReservation(String reservation) {
+    public void setReservation(Integer reservation) {
         this.reservation = reservation;
     }
 

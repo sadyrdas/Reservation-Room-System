@@ -8,15 +8,9 @@ import java.util.Set;
 public class UserRole extends AbstractEntity {
 
     @Basic(optional = false)
+    @Column(nullable = false)
     private String name;
 
-    @Basic(optional = false)
-    @Column
-    private int role_id;
-
-
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> users;
 
     public UserRole(){}
 
