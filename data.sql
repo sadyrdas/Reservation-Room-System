@@ -2,14 +2,14 @@ DROP TABLE IF EXISTS users, roles, user_roles, payment;
 
 CREATE TABLE roles
 (
-    id   INTEGER  NOT NULL PRIMARY KEY,
+    id   SERIAL  NOT NULL PRIMARY KEY,
     name VARCHAR(255)
 );
 
 
 CREATE TABLE users
 (
-    id         INTEGER PRIMARY KEY                      NOT NULL,
+    id         SERIAL PRIMARY KEY                      NOT NULL,
     email      VARCHAR(255) UNIQUE                      NOT NULL,
     first_name VARCHAR(255)                             NOT NULL,
     last_name  VARCHAR(255)                             NOT NULL,
@@ -23,17 +23,18 @@ CREATE TABLE users
 
 CREATE TABLE StudyRoom
 (
-    id          integer      NOT NULL PRIMARY KEY,
+    id          SERIAL      NOT NULL  PRIMARY KEY ,
     capacity    integer      not null,
     price       double PRECISION       not null,
-    reservation integer not null unique ,
+    reservation integer unique ,
+    isAvailable boolean not null,
     constraint studyroom_fk_slot foreign key (reservation) references slot(id)
 );
 
 
 CREATE TABLE Slot
 (
-    id        integer      NOT NULL PRIMARY KEY,
+    id        SERIAL     NOT NULL PRIMARY KEY,
     available Boolean      NOT NULL,
     start     varchar(255) NOT NULL,
     finish    varchar(255) NOT NULL,
@@ -48,9 +49,17 @@ CREATE TABLE Slot
 );
 CREATE TABLE Day
 (
-    id   integer      NOT NULL PRIMARY KEY,
+    id   SERIAL      NOT NULL PRIMARY KEY,
     posting_date DATE not null unique
 );
+
+CREATE TABLE Studyroom_Slot
+(
+    studyroom_id SERIAL not null primary key ,
+    slot_id integer not null primary key ,
+    constraint fk_slot foreign key (slot_id) references Slot (id),
+    constraint fk_studyroom foreign key (studyroom_id) references studyroom (id)
+)
 
 
 

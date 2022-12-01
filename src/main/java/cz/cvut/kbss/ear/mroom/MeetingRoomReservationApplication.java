@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,6 +38,12 @@ public class MeetingRoomReservationApplication {
     @GetMapping("allRooms")
     public List<StudyRoom> hello3(){
         return studyRoomDao.findAll();
+    }
+
+    @Transactional
+    @GetMapping("availableRooms")
+    public Boolean hello2(){
+        return studyRoomDao.createRoom(new StudyRoom(11,4200,null,true));
     }
 
     @GetMapping

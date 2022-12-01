@@ -1,6 +1,8 @@
 package cz.cvut.kbss.ear.mroom.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Slot extends AbstractEntity {
@@ -26,6 +28,13 @@ public class Slot extends AbstractEntity {
     @Column(nullable = false)
     private String finish;
 
+    @ManyToOne
+    @JoinColumn(name = "user_email")
+    private User user;
+
+    @ManyToMany(mappedBy = "slots")
+    private List<StudyRoom> rooms = new ArrayList<>();
+
 
     public Slot(String start, String finish, Boolean isAvailable, Double price, boolean paid) {
         this.start = start;
@@ -34,6 +43,8 @@ public class Slot extends AbstractEntity {
         this.paid = false;
         this.price = price;
     }
+
+
     
     
 
@@ -79,5 +90,22 @@ public class Slot extends AbstractEntity {
 
     public void setPaid(boolean paid) {
         this.paid = paid;
+    }
+
+    public String getUser_email() {
+        String u = user.getEmail();
+        return u;
+    }
+
+    public void setUser_email(User user, String email) {
+        user.setEmail(email);
+    }
+
+    public List<StudyRoom> getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(List<StudyRoom> rooms) {
+        this.rooms = rooms;
     }
 }

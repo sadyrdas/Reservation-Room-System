@@ -16,6 +16,8 @@ public class UserDao extends BaseDao<User> {
         super(User.class);
     }
 
+
+    @Transactional
     public User findByEmail(String email) {
         try {
             return em.createNamedQuery("User.findByEmail", User.class).setParameter("email", email)
@@ -54,6 +56,8 @@ public class UserDao extends BaseDao<User> {
         user.setEmail(newEmail);
     }
 
+
+    @Transactional
     public List<User> getAllUsers() {
         return findAll();
     }

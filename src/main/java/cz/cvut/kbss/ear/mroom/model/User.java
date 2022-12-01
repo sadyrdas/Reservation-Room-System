@@ -35,7 +35,8 @@ public class User extends AbstractEntity {
     @Column(nullable = false)
     private double money;
 
-
+    @OneToMany(mappedBy = "user")
+    private Set<Slot> slots;
 
 
 
