@@ -1,7 +1,6 @@
 package cz.cvut.kbss.ear.mroom.dao;
 
 import cz.cvut.kbss.ear.mroom.model.StudyRoom;
-import cz.cvut.kbss.ear.mroom.model.User;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,9 +15,9 @@ public class StudyRoomDao extends BaseDao<StudyRoom>{
 
 
     @Transactional
-    public StudyRoom getAvailableRooms(){
+    public List<StudyRoom> getAvailableRooms(){
         try {
-            return em.createNamedQuery("Studyroom.findAllAvailableRooms", StudyRoom.class).getSingleResult();
+            return em.createNamedQuery("Studyroom.findAllAvailableRooms", StudyRoom.class).getResultList();
         } catch (NoResultException e) {
             return null;
         }

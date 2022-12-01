@@ -43,8 +43,16 @@ public class MeetingRoomReservationApplication {
     @Transactional
     @GetMapping("availableRooms")
     public Boolean hello2(){
-        return studyRoomDao.createRoom(new StudyRoom(11,4200,null,true));
+        return studyRoomDao.createRoom(new StudyRoom(11,4200,1,true));
     }
+
+
+    @Transactional
+    @GetMapping("all2323")
+    public List<StudyRoom> hello4() {
+        return studyRoomDao.getAvailableRooms();
+    }
+
 
     @GetMapping
     public List<User> hello() {

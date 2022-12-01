@@ -55,7 +55,7 @@ CREATE TABLE Day
 
 CREATE TABLE Studyroom_Slot
 (
-    studyroom_id SERIAL not null primary key ,
+    studyroom_id integer not null primary key ,
     slot_id integer not null primary key ,
     constraint fk_slot foreign key (slot_id) references Slot (id),
     constraint fk_studyroom foreign key (studyroom_id) references studyroom (id)

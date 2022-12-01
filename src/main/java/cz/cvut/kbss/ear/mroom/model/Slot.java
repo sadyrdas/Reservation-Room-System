@@ -3,14 +3,11 @@ package cz.cvut.kbss.ear.mroom.model;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Slot extends AbstractEntity {
 
-
-    @Basic(optional = false)
-    @Column(nullable = false)
-    private Boolean isAvailable;
 
     @Basic(optional = false)
     @Column(nullable = false)
@@ -36,28 +33,19 @@ public class Slot extends AbstractEntity {
     private List<StudyRoom> rooms = new ArrayList<>();
 
 
-    public Slot(String start, String finish, Boolean isAvailable, Double price, boolean paid) {
+    public Slot(String start, String finish, Double price, boolean paid) {
         this.start = start;
         this.finish = finish;
-        this.isAvailable = true;
         this.paid = false;
         this.price = price;
     }
 
 
-    
+
     
 
     public Slot() {
 
-    }
-
-    public Boolean getAvailable() {
-        return isAvailable;
-    }
-
-    public void setAvailable(Boolean available) {
-        isAvailable = available;
     }
 
     public String getStart() {
