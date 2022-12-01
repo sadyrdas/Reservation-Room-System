@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class UserDao extends BaseDao<User> {
@@ -29,6 +30,7 @@ public class UserDao extends BaseDao<User> {
 
     @Transactional
     public Boolean createNewUser(User user) {
+        Objects.requireNonNull(user);
         try {
             em.persist(user);
             return true;
@@ -61,4 +63,6 @@ public class UserDao extends BaseDao<User> {
     public List<User> getAllUsers() {
         return findAll();
     }
+
+
 }

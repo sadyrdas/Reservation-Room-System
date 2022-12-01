@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS users, roles, user_roles, payment;
+DROP TABLE IF EXISTS users, roles, day, slot, studyroom CASCADE;
 
 CREATE TABLE roles
 (
@@ -44,7 +44,7 @@ CREATE TABLE Slot
     studyroom_id integer not null ,
     paid boolean not null ,
     CONSTRAINT slot_fk_day foreign key (day) references Day (id),
-    CONSTRAINT slot_fk_studyroom foreign key (studyroom_id) references StudyRoom (id),
+--     CONSTRAINT slot_fk_studyroom foreign key (studyroom_id) references StudyRoom (id),
     constraint slot_fk_users foreign key (user_email) references users (email)
 );
 CREATE TABLE Day
@@ -56,10 +56,9 @@ CREATE TABLE Day
 CREATE TABLE Studyroom_Slot
 (
     studyroom_id integer not null primary key ,
-    slot_id integer not null primary key ,
+    slot_id integer not null unique,
     constraint fk_slot foreign key (slot_id) references Slot (id),
     constraint fk_studyroom foreign key (studyroom_id) references studyroom (id)
-)
-
-
+);
+alter table slot add constraint fk_studyroom_slot foreign key (studyroom_id) references StudyRoom (id)
 

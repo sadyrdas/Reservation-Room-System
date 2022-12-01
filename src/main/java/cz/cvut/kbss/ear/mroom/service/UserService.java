@@ -2,6 +2,7 @@ package cz.cvut.kbss.ear.mroom.service;
 
 import cz.cvut.kbss.ear.mroom.dao.UserDao;
 import cz.cvut.kbss.ear.mroom.model.User;
+import cz.cvut.kbss.ear.mroom.model.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,11 +26,12 @@ public class UserService {
     }
 
     @Transactional
-    public Boolean createUser(String email, String first_name, String last_name, String password) {
+    public Boolean createUser(String email, String first_name, String last_name, String password, UserRole role_id) {
         Objects.requireNonNull(email);
         Objects.requireNonNull(first_name);
         Objects.requireNonNull(last_name);
         Objects.requireNonNull(password);
+        Objects.requireNonNull(role_id);
 
         Boolean ret = false;
 
@@ -39,7 +41,7 @@ public class UserService {
             return ret;
         } else {
             // TODO CHECK LENGTH OF INPUTs
-            userDao.createNewUser(new User(email, first_name, last_name, password));
+            userDao.createNewUser(new User(email, first_name, last_name, password, role_id));
         }
 
         return true;
