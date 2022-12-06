@@ -22,7 +22,6 @@ public class SlotService {
         this.slotDao = slotDao;
     }
 
-
     @Transactional
     public Boolean createSlot(String start, String finish, Double price, Boolean paid, User user, Day day, StudyRoom studyRoom) {
         Objects.requireNonNull(start);
@@ -55,4 +54,12 @@ public class SlotService {
         slot.setStudyroom_id(studyroom_id);
         slotDao.update(slot);
     }
+
+    @Transactional
+    public void setSlotOwner(Slot slot, User owner) {
+        slot.setUser(owner);
+        slotDao.update(slot);
+    }
+
+
 }

@@ -18,10 +18,6 @@ public class StudyRoom extends AbstractEntity{
     private int capacity;
 
 
-    @Basic(optional = false)
-    @Column(nullable = false)
-    private double price;
-
 
     @Basic(optional = false)
     @Column(nullable = false)
@@ -46,9 +42,8 @@ public class StudyRoom extends AbstractEntity{
 
 
 
-    public StudyRoom(int capacity, double price, Integer reservation, boolean isAvailable) {
+    public StudyRoom(int capacity, Integer reservation, boolean isAvailable) {
         this.capacity = capacity;
-        this.price = price;
         this.reservation = reservation;
         this.isAvailable = isAvailable;
     }
@@ -62,14 +57,6 @@ public class StudyRoom extends AbstractEntity{
 
     public void setCapacity(int capacity) {
         this.capacity = capacity;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
     }
 
     public Integer getReservation() {

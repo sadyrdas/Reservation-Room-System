@@ -59,9 +59,14 @@ public class Slot extends AbstractEntity {
         this.studyroom_id = studyRoom.getId();
     }
 
-
-    
-    
+    public Slot( String start, String finish, Double price, boolean paid, Day day, StudyRoom studyRoom) {
+        this.price = price;
+        this.paid = paid;
+        this.start = start;
+        this.finish = finish;
+        this.day = day;
+        this.studyroom_id = studyRoom.getId();
+    }
 
     public Slot() {
 

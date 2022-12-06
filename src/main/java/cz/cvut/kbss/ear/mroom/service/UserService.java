@@ -1,28 +1,36 @@
 package cz.cvut.kbss.ear.mroom.service;
 
+import cz.cvut.kbss.ear.mroom.dao.SlotDao;
 import cz.cvut.kbss.ear.mroom.dao.UserDao;
+import cz.cvut.kbss.ear.mroom.exception.NotEnoughMoney;
+import cz.cvut.kbss.ear.mroom.model.Slot;
 import cz.cvut.kbss.ear.mroom.model.User;
 import cz.cvut.kbss.ear.mroom.model.UserRole;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Objects;
 
 
 @Service
 public class UserService {
     private final UserDao userDao;
+    private final SlotService slotService;
+    private final SlotDao slotDao;
+    private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
 
 //    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserDao userDao) {
+    public UserService(UserDao userDao, SlotService slotService, SlotDao slotDao) {
         this.userDao = userDao;
 //        this.passwordEncoder = passwordEncoder;
+        this.slotService = slotService;
+        this.slotDao = slotDao;
     }
 
     @Transactional
@@ -74,6 +82,33 @@ public class UserService {
             userDao.updateUserByEmail(oldEmail,newEmail);
         }
         return true;
+    }
+
+    @Transactional
+    public void payForSlot(User user, List<Slot> slots) {
+        //TODO Do not use static price as number... Store it somewhere (maybe in enum or in database)
+        double totalPrice = slots.size() * 125;
+
+
+        // If User is Student sale is applied
+        if (user.getRole_id() == 1) {
+            // TODO Maybe use Java enum instead of just number
+            totalPrice *= 0.5;
+            LOG.info("Discount applied for user: " + user.getLast_name());
+        }
+
+        if (user.getMoney() >= totalPrice) {
+            for (Slot slot : slots) {
+                slotService.changePaidStatus(slot, true);
+                slotService.setSlotOwner(slot, user);
+            }
+            userDao.withdrawMoney(user, totalPrice);
+            LOG.info("Slot ('s) was/were successfully paid for " + totalPrice);
+            LOG.info("User current money: " + user.getMoney());
+        } else {
+            throw new NotEnoughMoney("User: " + user.getLast_name() + " doesn't have enough money. Current: " + user.getMoney()
+                    + ". " + totalPrice);
+        }
     }
 
 

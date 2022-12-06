@@ -1,6 +1,7 @@
 package cz.cvut.kbss.ear.mroom.model;
 
 
+import cz.cvut.kbss.ear.mroom.exception.NotEnoughMoney;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
@@ -55,6 +56,18 @@ public class User extends AbstractEntity {
         this.password = password;
         this.role_id = userRole.getId();
         this.money = 0.0;
+    }
+
+    public void withdrawMoney(Double drawMoney) {
+        if (this.money - drawMoney < 0) {
+            throw new NotEnoughMoney("Trying to withdraw amount of money that larger than user's current money.");
+        } else {
+            this.money -= drawMoney;
+        }
+    }
+
+    public void putUpMoney(Double drawMoney) {
+        this.money += drawMoney;
     }
 
     public void erasePassword(){this.password=null;}

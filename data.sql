@@ -60,3 +60,4 @@ CREATE TABLE Studyroom_Slot
     constraint fk_studyroom foreign key (studyroom_id) references studyroom (id)
 );
 alter table slot add constraint fk_studyroom_slot foreign key (studyroom_id) references StudyRoom (id);
+alter table slot alter column user_email drop not null;

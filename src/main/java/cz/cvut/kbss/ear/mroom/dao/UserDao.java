@@ -17,6 +17,11 @@ public class UserDao extends BaseDao<User> {
         super(User.class);
     }
 
+    @Transactional
+    public void withdrawMoney(User user, Double drawMoney) {
+        user.withdrawMoney(drawMoney);
+    }
+
 
     @Transactional
     public User findByEmail(String email) {
