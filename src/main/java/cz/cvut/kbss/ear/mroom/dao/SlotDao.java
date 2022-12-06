@@ -12,6 +12,7 @@ import java.util.Objects;
 @Repository
 public class SlotDao extends BaseDao<Slot>{
 
+
     @Autowired
     public SlotDao() {
         super(Slot.class);
@@ -28,7 +29,7 @@ public class SlotDao extends BaseDao<Slot>{
     }
 
     @Transactional
-    public Boolean createNewUser(Slot slot) {
+    public Boolean createNewSlot(Slot slot) {
         Objects.requireNonNull(slot);
         try {
             em.persist(slot);
@@ -37,6 +38,30 @@ public class SlotDao extends BaseDao<Slot>{
             return false;
         }
     }
+
+    @Transactional
+    public Slot findByPrice(Double price) {
+        try {
+            return em.createNamedQuery("Slot.findPriceById", Slot.class).setParameter("price", price)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    @Transactional
+    public Slot getSlotByStudyRoom(Integer studyroom_id) {
+        try {
+            return em.createNamedQuery("Slot.findByStudyroomID", Slot.class).setParameter("studyroom_id", studyroom_id)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+
+
+
 
 
 }

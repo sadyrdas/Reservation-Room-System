@@ -2,6 +2,7 @@ package cz.cvut.kbss.ear.mroom;
 
 import cz.cvut.kbss.ear.mroom.dao.*;
 import cz.cvut.kbss.ear.mroom.model.*;
+import cz.cvut.kbss.ear.mroom.service.SlotService;
 import cz.cvut.kbss.ear.mroom.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -23,15 +24,16 @@ public class MeetingRoomReservationApplication {
     private final DayDao dayDao;
     private final SlotDao slotDao;
     private final UserRoleDao userRoleDao;
-
+    private final SlotService slotService;
 
     @Autowired
-    public MeetingRoomReservationApplication(UserDao userDao, StudyRoomDao studyRoomDao, DayDao dayDao, SlotDao slotDao, UserRoleDao userRoleDao) {
+    public MeetingRoomReservationApplication(UserDao userDao, StudyRoomDao studyRoomDao, DayDao dayDao, SlotDao slotDao, UserRoleDao userRoleDao, SlotService slotService) {
         this.userDao = userDao;
         this.studyRoomDao = studyRoomDao;
         this.dayDao = dayDao;
         this.slotDao = slotDao;
         this.userRoleDao = userRoleDao;
+        this.slotService = slotService;
     }
 
     public static void main(String[] args) {
@@ -49,7 +51,7 @@ public class MeetingRoomReservationApplication {
     @Transactional
     @GetMapping("availableRooms")
     public Boolean hello2(){
-        return studyRoomDao.createRoom(new StudyRoom(11,4200,1,true));
+        return studyRoomDao.createRoom(new StudyRoom(11,4200,31,true));
     }
 
 
@@ -71,7 +73,7 @@ public class MeetingRoomReservationApplication {
     @Transactional
     @GetMapping("allDays")
     public List<Day> printAllDays() {
-        dayDao.persist(new Day(LocalDate.of(2001, 3, 27)));
+//        dayDao.persist(new Day(LocalDate.of(2001, 3, 27)));
         return dayDao.findAll();
     }
 
@@ -80,8 +82,21 @@ public class MeetingRoomReservationApplication {
     public Slot printSlotByUser() {
         UserService userService = new UserService(userDao);
         userService.createUser("test3@test.test", "Test1", "Test1", "qwerty", userRoleDao.getRoleIdByRoleName("student"));
-        slotDao.createNewUser(new Slot("14:00", "16:00",  125.00, false, userDao.findByEmail("test1@test.test"),dayDao.findByDate(LocalDate.of(2022, 1, 22)), studyRoomDao.findById(1) ));
+        slotDao.createNewSlot(new Slot("14:00", "16:00",  125.00, false, userDao.findByEmail("test1@test.test"),dayDao.findByDate(LocalDate.of(2022, 1, 22)), studyRoomDao.findById(1) ));
         return slotDao.getSlotByUser(userDao.findByEmail("test1@test.test"));
     }
+
+    @Transactional
+    @GetMapping("changeSlot")
+    public void changeStatus(){
+        slotService.changePaidStatus( slotDao.getSlotByUser(userDao.findByEmail("test3@test.test")), true);
+    }
+
+    @Transactional
+    @GetMapping("changeRoom")
+    public void changeRoom() {
+        slotService.changeRoom(slotDao.getSlotByStudyRoom(2), 6);
+    }
+
 
 }
