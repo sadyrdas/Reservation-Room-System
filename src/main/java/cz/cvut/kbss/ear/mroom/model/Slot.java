@@ -1,7 +1,5 @@
 package cz.cvut.kbss.ear.mroom.model;
 
-import cz.cvut.kbss.ear.mroom.dao.UserDao;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,11 +10,11 @@ import java.util.List;
         @NamedQuery(name = "Slot.findByUserEmail", query = "SELECT s FROM Slot s WHERE s.user = :email")
 )
 public class Slot extends AbstractEntity {
-
-
-    @Basic(optional = false)
-    @Column(nullable = false, name = "available")
-    private Boolean isAvailable;
+//
+//
+//    @Basic(optional = false)
+//    @Column(nullable = false)
+//    private Boolean isAvailable;
 
     @Basic(optional = false)
     @Column(nullable = false)
@@ -34,9 +32,8 @@ public class Slot extends AbstractEntity {
     @Column(nullable = false)
     private String finish;
 
-    @Basic(optional = false)
-    @Column(nullable = false)
-    private Integer day;
+    @OneToOne
+    private Day day;
 
     @Basic(optional = false)
     @Column(nullable = false)
@@ -50,14 +47,13 @@ public class Slot extends AbstractEntity {
     private List<StudyRoom> rooms = new ArrayList<>();
 
 
-    public Slot(String start, String finish, Boolean isAvailable, Double price, boolean paid, User user, Day day, StudyRoom studyRoom) {
+    public Slot(String start, String finish,  Double price, boolean paid, User user, Day day, StudyRoom studyRoom) {
         this.start = start;
         this.finish = finish;
-        this.isAvailable = isAvailable;
         this.paid = paid;
         this.price = price;
         this.user = user;
-        this.day = day.getId();
+        this.day = day;
         this.studyroom_id = studyRoom.getId();
     }
 
@@ -68,17 +64,33 @@ public class Slot extends AbstractEntity {
     public Slot() {
 
     }
-
-    public Boolean getAvailable() {
-        return isAvailable;
-    }
-
-    public void setAvailable(Boolean available) {
-        isAvailable = available;
-    }
+//
+//    public Boolean getAvailable() {
+//        return isAvailable;
+//    }
+//
+//    public void setAvailable(Boolean available) {
+//        isAvailable = available;
+//    }
 
     public String getStart() {
         return start;
+    }
+
+    public Day getDay() {
+        return day;
+    }
+
+    public void setDay(Day day) {
+        this.day = day;
+    }
+
+    public Integer getStudyroom_id() {
+        return studyroom_id;
+    }
+
+    public void setStudyroom_id(Integer studyroom_id) {
+        this.studyroom_id = studyroom_id;
     }
 
     public void setStart(String start) {
@@ -109,13 +121,12 @@ public class Slot extends AbstractEntity {
         this.paid = paid;
     }
 
-    public User getUser_email() {
-
+    public User getUser() {
         return user;
     }
 
-    public void setUser_email(User user, String email) {
-        user.setEmail(email);
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public List<StudyRoom> getRooms() {

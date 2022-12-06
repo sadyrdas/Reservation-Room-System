@@ -7,7 +7,7 @@ import java.util.List;
 
 
 @Entity
-@Table
+@Table(name = "studyroom")
 @NamedQueries({
         @NamedQuery(name = "Studyroom.findAllAvailableRooms", query = "SELECT st FROM StudyRoom st where st.isAvailable = true  "),
         @NamedQuery(name = "Studyroom.findById", query = "SELECT st from StudyRoom st where st.id = :id")

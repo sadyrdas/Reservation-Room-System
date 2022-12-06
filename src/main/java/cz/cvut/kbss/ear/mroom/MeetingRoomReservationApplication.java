@@ -79,8 +79,8 @@ public class MeetingRoomReservationApplication {
     @GetMapping("getSlotByUser")
     public Slot printSlotByUser() {
         UserService userService = new UserService(userDao);
-        userService.createUser("test1@test.test", "Test1", "Test1", "qwerty", userRoleDao.getRoleIdByRoleName("student"));
-        slotDao.persist(new Slot("14:00", "16:00", true, 125.00, false,  userDao.findByEmail("test2@test.test"), dayDao.findByDate(LocalDate.of(2001, 3, 27)), studyRoomDao.findById(1)));
+        userService.createUser("test3@test.test", "Test1", "Test1", "qwerty", userRoleDao.getRoleIdByRoleName("student"));
+        slotDao.createNewUser(new Slot("14:00", "16:00",  125.00, false, userDao.findByEmail("test1@test.test"),dayDao.findByDate(LocalDate.of(2022, 1, 22)), studyRoomDao.findById(1) ));
         return slotDao.getSlotByUser(userDao.findByEmail("test1@test.test"));
     }
 

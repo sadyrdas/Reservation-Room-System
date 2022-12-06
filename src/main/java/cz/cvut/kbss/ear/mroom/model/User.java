@@ -9,8 +9,8 @@ import java.util.Set;
 @Entity
 @Table(name = "users")
 @NamedQueries({
-        @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
-        @NamedQuery(name = "User.deleteByEmail", query = "DELETE FROM User u where u.email = :email"),
+        @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email")
+//        @NamedQuery(name = "User.deleteByEmail", query = "DELETE FROM User u where u.email = :email"),
 //        @NamedQuery(name = "User.updateByEmail", query = "update User set email = email where User.email = :email")
 })
 public class User extends AbstractEntity {
