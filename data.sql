@@ -25,7 +25,6 @@ CREATE TABLE StudyRoom
 (
     id          SERIAL      NOT NULL  PRIMARY KEY ,
     capacity    integer      not null,
-    price       double PRECISION       not null,
     reservation integer unique ,
     isAvailable boolean not null,
     constraint studyroom_fk_slot foreign key (reservation) references slot(id)
@@ -39,13 +38,13 @@ CREATE TABLE Slot
     start     varchar(255) NOT NULL,
     finish    varchar(255) NOT NULL,
     price double precision not null ,
-    user_email varchar(255) not null ,
+    user_email integer ,
     day integer not null,
     studyroom_id integer not null ,
     paid boolean not null ,
     CONSTRAINT slot_fk_day foreign key (day) references Day (id),
 --     CONSTRAINT slot_fk_studyroom foreign key (studyroom_id) references StudyRoom (id),
-    constraint slot_fk_users foreign key (user_email) references users (email)
+    constraint slot_fk_users foreign key (user_email) references users (id)
 );
 CREATE TABLE Day
 (
@@ -60,5 +59,4 @@ CREATE TABLE Studyroom_Slot
     constraint fk_slot foreign key (slot_id) references Slot (id),
     constraint fk_studyroom foreign key (studyroom_id) references studyroom (id)
 );
-alter table slot add constraint fk_studyroom_slot foreign key (studyroom_id) references StudyRoom (id)
-
+alter table slot add constraint fk_studyroom_slot foreign key (studyroom_id) references StudyRoom (id);
