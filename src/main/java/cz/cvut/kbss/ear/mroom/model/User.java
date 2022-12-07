@@ -6,6 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -50,7 +51,7 @@ public class User extends AbstractEntity {
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
-    private List<UserRole> roles = new ArrayList<>();
+    private List<UserRole> roles;
 
 
     public User() {
@@ -63,8 +64,19 @@ public class User extends AbstractEntity {
         this.password = password;
         this.role_id = userRole.getId();
         this.money = 0.0;
-        this.roles.addAll(roles);
+        this.roles = roles;
     }
+
+    public User(String email, String first_name, String last_name, String password, UserRole userRole) {
+        this.email = email;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.password = password;
+        this.role_id = userRole.getId();
+        this.money = 0.0;
+    }
+
+
 
     public void withdrawMoney(Double drawMoney) {
         if (this.money - drawMoney < 0) {
@@ -126,5 +138,13 @@ public class User extends AbstractEntity {
 
     public void setRole_id(Integer role_id) {
         this.role_id = role_id;
+    }
+
+    public List<UserRole> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<UserRole> roles) {
+        this.roles = roles;
     }
 }

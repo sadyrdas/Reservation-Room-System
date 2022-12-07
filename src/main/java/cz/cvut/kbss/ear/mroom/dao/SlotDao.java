@@ -51,15 +51,15 @@ public class SlotDao extends BaseDao<Slot>{
         }
     }
 
-    @Transactional
-    public Slot getSlotByStudyRoom(Integer studyroom_id) {
-        try {
-            return em.createNamedQuery("Slot.findByStudyroomID", Slot.class).setParameter("studyroom_id", studyroom_id)
-                    .getSingleResult();
-        } catch (NoResultException e) {
-            return null;
-        }
-    }
+//    @Transactional
+//    public Slot getSlotById(Integer studyroom_id) {
+//        try {
+//            return em.createNamedQuery("Slot.findByStudyroomID", Slot.class).setParameter("studyroom_id", studyroom_id)
+//                    .getSingleResult();
+//        } catch (NoResultException e) {
+//            return null;
+//        }
+//    }
 
 
 

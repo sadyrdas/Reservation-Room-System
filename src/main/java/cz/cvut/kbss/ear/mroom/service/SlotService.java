@@ -52,8 +52,8 @@ public class SlotService {
     }
 
     @Transactional
-    public void changeRoom(Slot slot, int studyroom_id){
-        slot.setStudyroom_id(studyRoomDao.findById(studyroom_id));
+    public void changeRoom(Slot slot, StudyRoom studyroom_id){
+        slot.setStudyroom_id(studyroom_id);
         slotDao.update(slot);
     }
 

@@ -58,7 +58,7 @@ public class MeetingRoomReservationApplication {
     @Transactional
     @GetMapping("userole")
     public Boolean hello42(){
-        return userDao.createNewUser(new User("test26@test.test", "EBLAN", "DAlbaebov", "test", userRoleDao.getRoleIdByRoleName("student"), userRoleDao.getallRoles(1)));
+        return userDao.createNewUser(new User("test28@test.test", "EBLAN", "DAlbaebov", "test", userRoleDao.getRoleIdByRoleName("student"), userRoleDao.getallRoles(1)));
     }
 
 
@@ -97,19 +97,19 @@ public class MeetingRoomReservationApplication {
         slotService.changePaidStatus( slotDao.getSlotByUser(userDao.findByEmail("test3@test.test")), true);
     }
 
-//    @Transactional
-//    @GetMapping("changeRoom")
-//    public void changeRoom() {
-//        slotService.changeRoom(slotDao.getSlotByStudyRoom(2), 6);
-//    }
+    @Transactional
+    @GetMapping("changeRoom")
+    public void changeRoom() {
+        slotService.changeRoom(slotDao.getSlotByUser(userDao.findByEmail("test@test.test")), studyRoomDao.findById(20));
+    }
 
     @Transactional
     @GetMapping("userPaysForSlots")
     public List<Slot> userPaysForSlots() {
-        slotDao.createNewSlot(new Slot("9:00", "10:00",  125.00, false, dayDao.findByDate(LocalDate.of(2022, 1, 22)), studyRoomDao.findById(1) ));
-        slotDao.createNewSlot(new Slot("10:00", "11:00",  125.00, false, dayDao.findByDate(LocalDate.of(2022, 1, 22)), studyRoomDao.findById(1) ));
-        slotDao.createNewSlot(new Slot("11:00", "12:00",  125.00, false, dayDao.findByDate(LocalDate.of(2022, 1, 22)), studyRoomDao.findById(1) ));
-        userService.payForSlot(userDao.findByEmail("test2@test.test"), slotDao.findAll());
+        slotDao.createNewSlot(new Slot("9:00", "10:00",  125.00, false, dayDao.findByDate(LocalDate.of(2022, 1, 22)), studyRoomDao.findById(28) ));
+        slotDao.createNewSlot(new Slot("10:00", "11:00",  125.00, false, dayDao.findByDate(LocalDate.of(2022, 1, 22)), studyRoomDao.findById(28) ));
+        slotDao.createNewSlot(new Slot("11:00", "12:00",  125.00, false, dayDao.findByDate(LocalDate.of(2022, 1, 22)), studyRoomDao.findById(28) ));
+//        userService.payForSlot(userDao.findByEmail("test2@test.test"), slotDao.findAll());
 
         return slotDao.findAll();
     }
