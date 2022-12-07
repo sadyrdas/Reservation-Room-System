@@ -25,9 +25,8 @@ CREATE TABLE StudyRoom
 (
     id          SERIAL      NOT NULL  PRIMARY KEY ,
     capacity    integer      not null,
-    reservation integer unique ,
-    isAvailable boolean not null,
-    constraint studyroom_fk_slot foreign key (reservation) references slot(id)
+    price integer not null ,
+    isAvailable boolean not null
 );
 
 
@@ -52,12 +51,12 @@ CREATE TABLE Day
     posting_date DATE not null unique
 );
 
-CREATE TABLE Studyroom_Slot
+CREATE TABLE User_Role
 (
-    studyroom_id integer not null primary key ,
-    slot_id integer not null unique,
-    constraint fk_slot foreign key (slot_id) references Slot (id),
-    constraint fk_studyroom foreign key (studyroom_id) references studyroom (id)
+    user_id integer not null primary key ,
+    role_id integer not null,
+    constraint fk_user foreign key (user_id) references users (id),
+    constraint fk_role foreign key (role_id) references roles (id)
 );
 alter table slot add constraint fk_studyroom_slot foreign key (studyroom_id) references StudyRoom (id);
 alter table slot alter column user_email drop not null;

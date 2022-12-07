@@ -9,14 +9,13 @@ import java.util.List;
 @NamedQueries({
         @NamedQuery(name = "Slot.findByUserEmail", query = "SELECT s FROM Slot s WHERE s.user = :email"),
         @NamedQuery(name = "Slot.findPriceById", query = "SELECT s FROM Slot s WHERE s.price = :price"),
-        @NamedQuery(name = "Slot.findByStudyroomID", query = "SELECT s From Slot s Where s.studyroom_id = :studyroom_id")
+        @NamedQuery(name = "Slot.findByStudyroomID", query = "SELECT s From Slot s Where s.studyroom_id = :studyroom_id"),
+        @NamedQuery(name = "Slot.findById", query = "SELECT s FROM Slot s WHERE s.id = :id"),
+
+
 })
 public class Slot extends AbstractEntity {
-//
-//
-//    @Basic(optional = false)
-//    @Column(nullable = false)
-//    private Boolean isAvailable;
+
 
     @Basic(optional = false)
     @Column(nullable = false)
@@ -37,16 +36,19 @@ public class Slot extends AbstractEntity {
     @OneToOne
     private Day day;
 
-    @Basic(optional = false)
-    @Column(nullable = false)
-    private Integer studyroom_id;
+    @ManyToOne
+    @JoinColumn(name = "studyroom_id", nullable = true)
+    private StudyRoom studyroom_id;
 
     @ManyToOne
     @JoinColumn(name = "user_email")
     private User user;
 
-    @ManyToMany(mappedBy = "slots")
-    private List<StudyRoom> rooms = new ArrayList<>();
+
+
+
+
+
 
 
     public Slot(String start, String finish,  Double price, boolean paid, User user, Day day, StudyRoom studyRoom) {
@@ -56,7 +58,7 @@ public class Slot extends AbstractEntity {
         this.price = price;
         this.user = user;
         this.day = day;
-        this.studyroom_id = studyRoom.getId();
+        this.studyroom_id = studyRoom;
     }
 
     public Slot( String start, String finish, Double price, boolean paid, Day day, StudyRoom studyRoom) {
@@ -65,20 +67,12 @@ public class Slot extends AbstractEntity {
         this.start = start;
         this.finish = finish;
         this.day = day;
-        this.studyroom_id = studyRoom.getId();
+        this.studyroom_id = studyRoom;
     }
 
     public Slot() {
 
     }
-//
-//    public Boolean getAvailable() {
-//        return isAvailable;
-//    }
-//
-//    public void setAvailable(Boolean available) {
-//        isAvailable = available;
-//    }
 
     public String getStart() {
         return start;
@@ -92,13 +86,7 @@ public class Slot extends AbstractEntity {
         this.day = day;
     }
 
-    public Integer getStudyroom_id() {
-        return studyroom_id;
-    }
 
-    public void setStudyroom_id(Integer studyroom_id) {
-        this.studyroom_id = studyroom_id;
-    }
 
     public void setStart(String start) {
         this.start = start;
@@ -136,11 +124,12 @@ public class Slot extends AbstractEntity {
         this.user = user;
     }
 
-    public List<StudyRoom> getRooms() {
-        return rooms;
+
+    public StudyRoom getStudyroom_id() {
+        return studyroom_id;
     }
 
-    public void setRooms(List<StudyRoom> rooms) {
-        this.rooms = rooms;
+    public void setStudyroom_id(StudyRoom studyroom_id) {
+        this.studyroom_id = studyroom_id;
     }
 }

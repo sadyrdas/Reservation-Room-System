@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
+import java.util.List;
 
 @Repository
 public class UserRoleDao extends BaseDao<UserRole>{
@@ -22,5 +23,17 @@ public class UserRoleDao extends BaseDao<UserRole>{
         } catch (NoResultException e) {
             return null;
         }
+    }
+
+    @Transactional
+    public List<UserRole> getallRoles(int id) {
+        try {
+            return em.createNamedQuery("UserRole.getById", UserRole.class).setParameter("id", id)
+                    .getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
+
+
     }
 }

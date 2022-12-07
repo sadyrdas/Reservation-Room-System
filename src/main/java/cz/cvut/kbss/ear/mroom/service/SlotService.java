@@ -1,7 +1,7 @@
 package cz.cvut.kbss.ear.mroom.service;
 
 import cz.cvut.kbss.ear.mroom.dao.SlotDao;
-import cz.cvut.kbss.ear.mroom.dao.UserDao;
+import cz.cvut.kbss.ear.mroom.dao.StudyRoomDao;
 import cz.cvut.kbss.ear.mroom.model.Day;
 import cz.cvut.kbss.ear.mroom.model.Slot;
 import cz.cvut.kbss.ear.mroom.model.StudyRoom;
@@ -10,16 +10,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.StyledEditorKit;
+import java.util.List;
 import java.util.Objects;
 
 @Service
 public class SlotService {
     private final SlotDao slotDao;
+    private final StudyRoomDao studyRoomDao;
 
     @Autowired
-    public SlotService(SlotDao slotDao) {
+    public SlotService(SlotDao slotDao, StudyRoomDao studyRoomDao) {
         this.slotDao = slotDao;
+        this.studyRoomDao = studyRoomDao;
     }
 
     @Transactional
@@ -51,7 +53,7 @@ public class SlotService {
 
     @Transactional
     public void changeRoom(Slot slot, int studyroom_id){
-        slot.setStudyroom_id(studyroom_id);
+        slot.setStudyroom_id(studyRoomDao.findById(studyroom_id));
         slotDao.update(slot);
     }
 

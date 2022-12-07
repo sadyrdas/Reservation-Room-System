@@ -6,13 +6,17 @@ import java.util.Set;
 @Entity
 @Table(name ="roles")
 @NamedQueries({
-        @NamedQuery(name = "UserRole.findByRoleName", query = "SELECT ur FROM UserRole ur WHERE ur.name = :name")
+        @NamedQuery(name = "UserRole.findByRoleName", query = "SELECT ur FROM UserRole ur WHERE ur.name = :name"),
+        @NamedQuery(name = "UserRole.getById", query = "select ur from UserRole  ur where ur.id = :id")
 }
 )
 public class UserRole extends AbstractEntity {
     @Basic(optional = false)
     @Column(nullable = false)
     private String name;
+
+    @ManyToMany(mappedBy = "roles")
+    private Set<User> users;
 
 
     public UserRole(){}

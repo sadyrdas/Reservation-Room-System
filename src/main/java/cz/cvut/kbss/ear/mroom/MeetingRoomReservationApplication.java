@@ -51,7 +51,14 @@ public class MeetingRoomReservationApplication {
     @Transactional
     @GetMapping("availableRooms")
     public Boolean hello2(){
-        return studyRoomDao.createRoom(new StudyRoom(11,31,true));
+        return studyRoomDao.createRoom(new StudyRoom(20, 4124, true));
+
+    }
+
+    @Transactional
+    @GetMapping("userole")
+    public Boolean hello42(){
+        return userDao.createNewUser(new User("test26@test.test", "EBLAN", "DAlbaebov", "test", userRoleDao.getRoleIdByRoleName("student"), userRoleDao.getallRoles(1)));
     }
 
 
@@ -79,9 +86,9 @@ public class MeetingRoomReservationApplication {
 
     @Transactional
     @GetMapping("getSlotByUser")
-    public Slot printSlotByUser() {
-        slotDao.createNewSlot(new Slot("14:00", "16:00",  125.00, false, userDao.findByEmail("test2@test.test"),dayDao.findByDate(LocalDate.of(2022, 1, 22)), studyRoomDao.findById(1) ));
-        return slotDao.getSlotByUser(userDao.findByEmail("test2@test.test"));
+    public Boolean printSlotByUser() {
+        slotDao.createNewSlot(new Slot("00:00", "01:00",  125.00, false, userDao.findByEmail("test2@test.test"),dayDao.findByDate(LocalDate.of(2022, 1, 22)), studyRoomDao.findById(3) ));
+        return Boolean.TRUE;
     }
 
     @Transactional
@@ -90,11 +97,11 @@ public class MeetingRoomReservationApplication {
         slotService.changePaidStatus( slotDao.getSlotByUser(userDao.findByEmail("test3@test.test")), true);
     }
 
-    @Transactional
-    @GetMapping("changeRoom")
-    public void changeRoom() {
-        slotService.changeRoom(slotDao.getSlotByStudyRoom(2), 6);
-    }
+//    @Transactional
+//    @GetMapping("changeRoom")
+//    public void changeRoom() {
+//        slotService.changeRoom(slotDao.getSlotByStudyRoom(2), 6);
+//    }
 
     @Transactional
     @GetMapping("userPaysForSlots")
@@ -106,5 +113,7 @@ public class MeetingRoomReservationApplication {
 
         return slotDao.findAll();
     }
+
+
 
 }

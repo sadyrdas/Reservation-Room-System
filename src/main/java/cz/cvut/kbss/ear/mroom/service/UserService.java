@@ -34,7 +34,7 @@ public class UserService {
     }
 
     @Transactional
-    public Boolean createUser(String email, String first_name, String last_name, String password, UserRole role_id) {
+    public Boolean createUser(String email, String first_name, String last_name, String password, UserRole role_id, List<UserRole> roles) {
         Objects.requireNonNull(email);
         Objects.requireNonNull(first_name);
         Objects.requireNonNull(last_name);
@@ -49,7 +49,7 @@ public class UserService {
             return ret;
         } else {
             // TODO CHECK LENGTH OF INPUTs
-            userDao.createNewUser(new User(email, first_name, last_name, password, role_id));
+            userDao.createNewUser(new User(email, first_name, last_name, password, role_id, roles));
         }
 
         return true;

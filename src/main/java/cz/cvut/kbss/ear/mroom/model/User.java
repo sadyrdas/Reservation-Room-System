@@ -5,6 +5,8 @@ import cz.cvut.kbss.ear.mroom.exception.NotEnoughMoney;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -40,22 +42,28 @@ public class User extends AbstractEntity {
     @Column(nullable = false)
     private Integer role_id;
 
-    @OneToMany(mappedBy = "user")
-    private Set<Slot> slots;
 
 
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(
+            name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
+    )
+    private List<UserRole> roles = new ArrayList<>();
 
 
     public User() {
     }
 
-    public User(String email, String first_name, String last_name, String password, UserRole userRole) {
+    public User(String email, String first_name, String last_name, String password, UserRole userRole, List<UserRole> roles) {
         this.email = email;
         this.first_name = first_name;
         this.last_name = last_name;
         this.password = password;
         this.role_id = userRole.getId();
         this.money = 0.0;
+        this.roles.addAll(roles);
     }
 
     public void withdrawMoney(Double drawMoney) {
