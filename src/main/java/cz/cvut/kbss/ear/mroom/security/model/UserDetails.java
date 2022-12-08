@@ -4,9 +4,11 @@ import cz.cvut.kbss.ear.mroom.model.User;
 import cz.cvut.kbss.ear.mroom.model.UserRole;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
 
 public class UserDetails implements org.springframework.security.core.userdetails.UserDetails{
 
