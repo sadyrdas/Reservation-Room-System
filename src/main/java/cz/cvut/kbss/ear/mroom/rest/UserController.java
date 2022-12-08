@@ -2,8 +2,8 @@ package cz.cvut.kbss.ear.mroom.rest;
 
 import cz.cvut.kbss.ear.mroom.dao.UserRoleDao;
 import cz.cvut.kbss.ear.mroom.model.User;
-import cz.cvut.kbss.ear.mroom.model.UserRole;
 import cz.cvut.kbss.ear.mroom.rest.util.RestUtil;
+import cz.cvut.kbss.ear.mroom.security.model.AuthenticationToken;
 import cz.cvut.kbss.ear.mroom.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,10 +13,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/users")
@@ -43,5 +42,10 @@ public class UserController {
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
-
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER', 'ROLE_CLIENT')")
+    @GetMapping(value = "/current", produces = MediaType.APPLICATION_JSON_VALUE)
+    public User getCurrent(Principal principal) {
+        final AuthenticationToken auth = (AuthenticationToken) principal;
+        return auth.getPrincipal().getUser();
+    }
 }
