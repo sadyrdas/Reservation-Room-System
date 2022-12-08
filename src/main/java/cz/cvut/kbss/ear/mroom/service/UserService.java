@@ -48,11 +48,10 @@ public class UserService {
         } else if (userDao.findByEmail(email) != null) {
             return ret;
         } else {
-            // TODO CHECK LENGTH OF INPUTs
-            userDao.createNewUser(new User(email, first_name, last_name, password, role_id, roles));
+            ret = userDao.createNewUser(new User(email, first_name, last_name, password, role_id, roles));
         }
 
-        return true;
+        return ret;
     }
 
     @Transactional
