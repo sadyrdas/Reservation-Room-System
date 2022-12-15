@@ -61,7 +61,7 @@ public class MeetingRoomReservationApplication {
     @Transactional
     @GetMapping("userole")
     public Boolean hello42(){
-        return userService.createUser("test100@test.test", "EBLAN", "DAlbaebov", "test", userRoleDao.getRoleIdByRoleName("student"), userRoleDao.getallRoles(1));
+        return userService.createUser("test100@test.test", "EBLAN", "DAlbaebov", "test", 1, userRoleDao.getallRoles(1));
     }
 
 

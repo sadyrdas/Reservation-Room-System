@@ -38,7 +38,7 @@ public class UserService {
 
 
     @Transactional
-    public Boolean createUser(String email, String first_name, String last_name, String password, UserRole role_id, List<UserRole> roles) {
+    public Boolean createUser(String email, String first_name, String last_name, String password, int role_id, List<UserRole> roles) {
         Objects.requireNonNull(email);
         Objects.requireNonNull(first_name);
         Objects.requireNonNull(last_name);

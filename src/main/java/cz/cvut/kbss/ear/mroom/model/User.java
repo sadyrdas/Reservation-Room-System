@@ -57,12 +57,12 @@ public class User extends AbstractEntity {
     public User() {
     }
 
-    public User(String email, String first_name, String last_name, String password, UserRole userRole, List<UserRole> roles) {
+    public User(String email, String first_name, String last_name, String password, Integer userRole, List<UserRole> roles) {
         this.email = email;
         this.first_name = first_name;
         this.last_name = last_name;
         this.password = password;
-        this.role_id = userRole.getId();
+        this.role_id = userRole;
         this.money = 0.0;
         this.roles = roles;
     }
