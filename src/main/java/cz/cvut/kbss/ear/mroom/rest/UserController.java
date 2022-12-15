@@ -31,11 +31,11 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PreAuthorize("(#user.role_id != 3 )")
+//    @PreAuthorize("(#user.role_id != 3 )")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> register(@RequestBody User user) {
         userService.createUser(user.getEmail(), user.getFirst_name(), user.getLast_name(),
-                user.getPassword(), 1, userRoleDao.getallRoles(1));
+                user.getPassword(),  userRoleDao.getallRoles(1));
 
         LOG.info("User {} successfully registered.", user);
         final HttpHeaders headers = RestUtil.createLocationHeaderFromCurrentUri("/current");
@@ -49,12 +49,12 @@ public class UserController {
         return auth.getPrincipal().getUser();
     }
 
-    @PreAuthorize("(#user.role_id != 1 )")
+//    @PreAuthorize("(#user.role_id != 1 )")
     @GetMapping(value = "/admin", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> registerAdmin(@RequestBody User user) {
         userService.createUser(user.getEmail(), user.getFirst_name(), user.getLast_name(),
-                user.getPassword(), 3, userRoleDao.getallRoles(3));
+                user.getPassword(),  userRoleDao.getallRoles(3));
 
         LOG.info("User {} successfully registered.", user);
         final HttpHeaders headers = RestUtil.createLocationHeaderFromCurrentUri("/current");

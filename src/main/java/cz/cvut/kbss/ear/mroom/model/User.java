@@ -39,9 +39,9 @@ public class User extends AbstractEntity {
     @Column(nullable = false)
     private double money;
 
-    @Basic(optional = false)
-    @Column(nullable = false)
-    private Integer role_id;
+//    @Basic(optional = false)
+//    @Column(nullable = false)
+//    private Integer role_id;
 
 
 
@@ -57,12 +57,11 @@ public class User extends AbstractEntity {
     public User() {
     }
 
-    public User(String email, String first_name, String last_name, String password, Integer userRole, List<UserRole> roles) {
+    public User(String email, String first_name, String last_name, String password, List<UserRole> roles) {
         this.email = email;
         this.first_name = first_name;
         this.last_name = last_name;
         this.password = password;
-        this.role_id = userRole;
         this.money = 0.0;
         this.roles = roles;
     }
@@ -72,7 +71,6 @@ public class User extends AbstractEntity {
         this.first_name = first_name;
         this.last_name = last_name;
         this.password = password;
-        this.role_id = userRole.getId();
         this.money = 0.0;
     }
 
@@ -131,14 +129,14 @@ public class User extends AbstractEntity {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public Integer getRole_id() {
-        return role_id;
-    }
-
-    public void setRole_id(Integer role_id) {
-        this.role_id = role_id;
-    }
+//
+//    public Integer getRole_id() {
+//        return role_id;
+//    }
+//
+//    public void setRole_id(Integer role_id) {
+//        this.role_id = role_id;
+//    }
 
     public List<UserRole> getRoles() {
         return roles;

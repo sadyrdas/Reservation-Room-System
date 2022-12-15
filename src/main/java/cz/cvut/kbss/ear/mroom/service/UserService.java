@@ -38,12 +38,11 @@ public class UserService {
 
 
     @Transactional
-    public Boolean createUser(String email, String first_name, String last_name, String password, int role_id, List<UserRole> roles) {
+    public Boolean createUser(String email, String first_name, String last_name, String password, List<UserRole> roles) {
         Objects.requireNonNull(email);
         Objects.requireNonNull(first_name);
         Objects.requireNonNull(last_name);
         Objects.requireNonNull(password);
-        Objects.requireNonNull(role_id);
 
 
         Boolean ret = false;
@@ -53,7 +52,7 @@ public class UserService {
         } else if (userDao.findByEmail(email) != null) {
             return ret;
         } else {
-            User user = new User(email, first_name, last_name, password, role_id, roles);
+            User user = new User(email, first_name, last_name, password,  roles);
             user.encodePassword(passwordEncoder);
             ret = userDao.createNewUser(user);
         }
@@ -90,32 +89,32 @@ public class UserService {
         return true;
     }
 
-    @Transactional
-    public void payForSlot(User user, List<Slot> slots) {
-        //TODO Do not use static price as number... Store it somewhere (maybe in enum or in database)
-        double totalPrice = slots.size() * 125;
-
-
-        // If User is Student sale is applied
-        if (user.getRole_id() == 1) {
-            // TODO Maybe use Java enum instead of just number
-            totalPrice *= 0.5;
-            LOG.info("Discount applied for user: " + user.getLast_name());
-        }
-
-        if (user.getMoney() >= totalPrice) {
-            for (Slot slot : slots) {
-                slotService.changePaidStatus(slot, true);
-                slotService.setSlotOwner(slot, user);
-            }
-            userDao.withdrawMoney(user, totalPrice);
-            LOG.info("Slot ('s) was/were successfully paid for " + totalPrice);
-            LOG.info("User current money: " + user.getMoney());
-        } else {
-            throw new NotEnoughMoney("User: " + user.getLast_name() + " doesn't have enough money. Current: " + user.getMoney()
-                    + ". " + totalPrice);
-        }
-    }
+//    @Transactional
+//    public void payForSlot(User user, List<Slot> slots) {
+//        //TODO Do not use static price as number... Store it somewhere (maybe in enum or in database)
+//        double totalPrice = slots.size() * 125;
+//
+//
+//        // If User is Student sale is applied
+//        if (user.getRole_id() == 1) {
+//            // TODO Maybe use Java enum instead of just number
+//            totalPrice *= 0.5;
+//            LOG.info("Discount applied for user: " + user.getLast_name());
+//        }
+//
+//        if (user.getMoney() >= totalPrice) {
+//            for (Slot slot : slots) {
+//                slotService.changePaidStatus(slot, true);
+//                slotService.setSlotOwner(slot, user);
+//            }
+//            userDao.withdrawMoney(user, totalPrice);
+//            LOG.info("Slot ('s) was/were successfully paid for " + totalPrice);
+//            LOG.info("User current money: " + user.getMoney());
+//        } else {
+//            throw new NotEnoughMoney("User: " + user.getLast_name() + " doesn't have enough money. Current: " + user.getMoney()
+//                    + ". " + totalPrice);
+//        }
+//    }
 
 
 }
