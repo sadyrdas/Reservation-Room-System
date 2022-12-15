@@ -48,4 +48,16 @@ public class UserController {
         final AuthenticationToken auth = (AuthenticationToken) principal;
         return auth.getPrincipal().getUser();
     }
+
+    @PreAuthorize("(#user.role_id != 1 )")
+    @GetMapping(value = "/admin", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> registerAdmin(@RequestBody User user) {
+        userService.createUser(user.getEmail(), user.getFirst_name(), user.getLast_name(),
+                user.getPassword(), userRoleDao.getRoleIdByRoleName("admin"), userRoleDao.getallRoles(3));
+
+        LOG.info("User {} successfully registered.", user);
+        final HttpHeaders headers = RestUtil.createLocationHeaderFromCurrentUri("/current");
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    }
 }
