@@ -5,10 +5,7 @@ import cz.cvut.kbss.ear.mroom.exception.NotEnoughMoney;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -129,14 +126,9 @@ public class User extends AbstractEntity {
     public void setPassword(String password) {
         this.password = password;
     }
-//
-//    public Integer getRole_id() {
-//        return role_id;
-//    }
-//
-//    public void setRole_id(Integer role_id) {
-//        this.role_id = role_id;
-//    }
+    public boolean isAdmin(){
+        return roles.stream().anyMatch(r -> r.getName().equals("ROLE_ADMIN"));
+    }
 
     public List<UserRole> getRoles() {
         return roles;

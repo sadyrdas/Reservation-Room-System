@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class StudyroomController {
 
     private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
-    private StudyRoomDao studyRoomDao;
-    private StudyroomService studyroomService;
+    private final StudyRoomDao studyRoomDao;
+    private final StudyroomService studyroomService;
 
     @Autowired
     public StudyroomController(StudyRoomDao studyRoomDao, StudyroomService studyroomService) {

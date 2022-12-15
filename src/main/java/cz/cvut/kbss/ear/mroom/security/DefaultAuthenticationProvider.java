@@ -45,8 +45,10 @@ public class DefaultAuthenticationProvider implements AuthenticationProvider {
         if(userDetails == null){
             throw new UsernameNotFoundException("User is not found.");
         }
+        Object creds = authentication.getCredentials();
+        String password = creds == null ? null : creds.toString();
 
-        if(passwordEncoder.matches((String)authentication.getCredentials(), userDetails.getPassword())){
+        if(passwordEncoder.matches(password, userDetails.getPassword())){
             userDetails.eraseCredentials();
             return SecurityUtils.setCurrentUser(userDetails);
         }
