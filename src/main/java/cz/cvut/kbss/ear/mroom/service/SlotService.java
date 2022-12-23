@@ -63,5 +63,9 @@ public class SlotService {
         slotDao.update(slot);
     }
 
+    @Transactional
+    public Slot findSlotById(Integer id) {
+        return slotDao.find(id);
+    }
 
 }

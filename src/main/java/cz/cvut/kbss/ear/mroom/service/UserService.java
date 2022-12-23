@@ -89,32 +89,45 @@ public class UserService {
         return true;
     }
 
-//    @Transactional
-//    public void payForSlot(User user, List<Slot> slots) {
-//        //TODO Do not use static price as number... Store it somewhere (maybe in enum or in database)
-//        double totalPrice = slots.size() * 125;
-//
-//
-//        // If User is Student sale is applied
-//        if (user.getRole_id() == 1) {
-//            // TODO Maybe use Java enum instead of just number
-//            totalPrice *= 0.5;
-//            LOG.info("Discount applied for user: " + user.getLast_name());
-//        }
-//
-//        if (user.getMoney() >= totalPrice) {
-//            for (Slot slot : slots) {
-//                slotService.changePaidStatus(slot, true);
-//                slotService.setSlotOwner(slot, user);
-//            }
-//            userDao.withdrawMoney(user, totalPrice);
-//            LOG.info("Slot ('s) was/were successfully paid for " + totalPrice);
-//            LOG.info("User current money: " + user.getMoney());
-//        } else {
-//            throw new NotEnoughMoney("User: " + user.getLast_name() + " doesn't have enough money. Current: " + user.getMoney()
-//                    + ". " + totalPrice);
-//        }
-//    }
+    @Transactional
+    public void putUpMoney(User user, Double money) {
+        userDao.putUpMoney(user, money);
+    }
+
+    @Transactional
+    public void withdrawMoney(User user, Double money) {
+        userDao.withdrawMoney(user, money);
+    }
+
+    @Transactional
+    public void payForSlot(User user, List<Slot> slots) {
+        //TODO Do not use static price as number... Store it somewhere (maybe in enum or in database)
+        double totalPrice = slots.size() * 125;
 
 
+        // If User is Student sale is applied
+        if (user.getRoles().get(0).getId() == 1) {
+            // TODO Maybe use Java enum instead of just number
+            totalPrice *= 0.5;
+            LOG.info("Discount applied for user: " + user.getLast_name());
+        }
+
+        if (user.getMoney() >= totalPrice) {
+            for (Slot slot : slots) {
+                slotService.changePaidStatus(slot, true);
+                slotService.setSlotOwner(slot, user);
+            }
+            userDao.withdrawMoney(user, totalPrice);
+            LOG.info("Slot ('s) was/were successfully paid for " + totalPrice);
+            LOG.info("User current money: " + user.getMoney());
+        } else {
+            throw new NotEnoughMoney("User: " + user.getLast_name() + " doesn't have enough money. Current: " + user.getMoney()
+                    + ". " + totalPrice);
+        }
+    }
+
+    @Transactional
+    public User findUserByEmail(String userEmail) {
+        return userDao.findByEmail(userEmail);
+    }
 }

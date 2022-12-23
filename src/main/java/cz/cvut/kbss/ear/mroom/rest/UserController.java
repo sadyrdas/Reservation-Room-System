@@ -59,4 +59,6 @@ public class UserController {
         final HttpHeaders headers = RestUtil.createLocationHeaderFromCurrentUri("/current");
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
+
+
 }
