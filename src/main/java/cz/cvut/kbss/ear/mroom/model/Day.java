@@ -3,6 +3,7 @@ package cz.cvut.kbss.ear.mroom.model;
 import javax.persistence.*;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.Set;
 
 
 @Entity
@@ -15,6 +16,11 @@ public class Day extends AbstractEntity {
     @Basic(optional = false)
     @Column(nullable = false)
     private LocalDate posting_date;
+
+
+    @OneToMany(mappedBy = "day")
+    private Set<Slot> slotSet;
+
 
     public Day(LocalDate posting_date) {
         this.posting_date = posting_date;
@@ -30,5 +36,13 @@ public class Day extends AbstractEntity {
 
     public void setPosting_date(LocalDate posting_date) {
         this.posting_date = posting_date;
+    }
+
+    public Set<Slot> getSlotSet() {
+        return slotSet;
+    }
+
+    public void setSlotSet(Set<Slot> slotSet) {
+        this.slotSet = slotSet;
     }
 }

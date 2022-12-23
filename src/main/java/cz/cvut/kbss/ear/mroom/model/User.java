@@ -36,13 +36,11 @@ public class User extends AbstractEntity {
     @Column(nullable = false)
     private double money;
 
-//    @Basic(optional = false)
-//    @Column(nullable = false)
-//    private Integer role_id;
 
 
 
-    @ManyToMany(cascade = CascadeType.MERGE)
+
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
@@ -128,6 +126,11 @@ public class User extends AbstractEntity {
     }
     public boolean isAdmin(){
         return roles.stream().anyMatch(r -> r.getName().equals("ROLE_ADMIN"));
+    }
+
+    public boolean isStudent(){
+        return roles.stream().anyMatch(r -> r.getName().equals("ROLE_STUDENT"));
+
     }
 
     public List<UserRole> getRoles() {

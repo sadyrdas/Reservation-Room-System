@@ -49,6 +49,4 @@ public class StudyRoomDao extends BaseDao<StudyRoom>{
         studyRoom.setAvailable(change);
     }
 
-
-
 }

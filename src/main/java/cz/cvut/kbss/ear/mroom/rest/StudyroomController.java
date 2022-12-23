@@ -13,16 +13,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/studyroom")
 public class StudyroomController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(StudyroomController.class);
     private final StudyRoomDao studyRoomDao;
     private final StudyroomService studyroomService;
 
@@ -36,16 +33,19 @@ public class StudyroomController {
     @PostMapping(value = "createRoom", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createRoom(@RequestBody StudyRoom studyRoom) {
         studyroomService.createStudyroom(studyRoom.getCapacity(), studyRoom.getPrice(), studyRoom.isAvailable());
-        LOG.info("Studyroom {} successfully added.", studyRoom);
+        LOG.info("Studyroom with id {} successfully added.", studyRoom.getId());
         final HttpHeaders headers = RestUtil.createLocationHeaderFromCurrentUri("/current");
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping(value = "changeStatus", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> updateStatusRoom(@RequestBody StudyRoom studyRoom) {
-        studyroomService.updateAvailableRoom(studyRoom.getId(), studyRoom.isAvailable());
-        LOG.info("RoomStatus {} successfully updated.", studyRoom);
+    @PutMapping(value = "/changeStudyRoomStatus/{id}", consumes = MediaType.TEXT_PLAIN_VALUE)
+    @ResponseStatus(value = HttpStatus.ACCEPTED)
+    public ResponseEntity<Void> updateStatusRoom(@PathVariable Integer id, @RequestBody String status) {
+        studyroomService.updateAvailableRoom(id, Boolean.parseBoolean(status));
+        LOG.info("kek {}", id);
+        LOG.info("IDI NAXUY {}" , Boolean.parseBoolean(status));
+        LOG.info("RoomStatus with id {} successfully updated.", id);
         final HttpHeaders headers = RestUtil.createLocationHeaderFromCurrentUri("/current");
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
 
