@@ -1,7 +1,6 @@
 package cz.cvut.kbss.ear.mroom.dao;
 
 import cz.cvut.kbss.ear.mroom.model.UserRole;
-import org.apache.catalina.User;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +25,7 @@ public class UserRoleDao extends BaseDao<UserRole>{
     }
 
     @Transactional
-    public List<UserRole> getallRoles(int id) {
+    public List<UserRole> getAllRoles(int id) {
         try {
             return em.createNamedQuery("UserRole.getById", UserRole.class).setParameter("id", id)
                     .getResultList();

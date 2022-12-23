@@ -61,14 +61,14 @@ public class MeetingRoomReservationApplication {
     @Transactional
     @GetMapping("userole")
     public Boolean hello42(){
-        return userService.createUser("test100@test.test", "EBLAN", "DAlbaebov", "test",  userRoleDao.getallRoles(1));
+        return userService.createUser("test100@test.test", "EBLAN", "DAlbaebov", "test",  userRoleDao.getAllRoles(1));
     }
 
 
     @Transactional
     @GetMapping("all2323")
-    public List<StudyRoom> hello4() {
-        return studyRoomDao.getAvailableRooms();
+    public void hello4() {
+        studyRoomDao.updateAvailableRoom(1, true);
     }
 
 

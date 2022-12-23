@@ -31,18 +31,18 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PreAuthorize("(!#user.isAdmin() && anonymous) || hasRole('ROLE_ADMIN')")
+
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> register(@RequestBody User user) {
         userService.createUser(user.getEmail(), user.getFirst_name(), user.getLast_name(),
-                user.getPassword(),  userRoleDao.getallRoles(1));
+                user.getPassword(),  userRoleDao.getAllRoles(1));
 
-        LOG.info("User {} successfully registered.", user);
+        LOG.info("User with email {} successfully registered.", user.getEmail());
         final HttpHeaders headers = RestUtil.createLocationHeaderFromCurrentUri("/current");
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER', 'ROLE_CLIENT')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_STUDENT', 'ROLE_CLIENT')")
     @GetMapping(value = "/current", produces = MediaType.APPLICATION_JSON_VALUE)
     public User getCurrent(Principal principal) {
         final AuthenticationToken auth = (AuthenticationToken) principal;
@@ -53,9 +53,9 @@ public class UserController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> registerAdmin(@RequestBody User user) {
         userService.createUser(user.getEmail(), user.getFirst_name(), user.getLast_name(),
-                user.getPassword(),  userRoleDao.getallRoles(3));
+                user.getPassword(),  userRoleDao.getAllRoles(3));
 
-        LOG.info("User {} successfully registered.", user);
+        LOG.info("Admin wit email {} successfully registered.", user.getEmail());
         final HttpHeaders headers = RestUtil.createLocationHeaderFromCurrentUri("/current");
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }

@@ -38,18 +38,10 @@ public class StudyroomService {
 
 
     @Transactional
-    public Boolean updateAvailableRoom(int id, boolean change){
-        Boolean result = false;
-        if(id == 0) {
-            return result;
-        }else {
-            studyRoomDao.updateAvailableRoom(id, change);
-        }
-        return true;
-
+    public void updateAvailableRoom(int id, boolean change) {
+        studyRoomDao.updateAvailableRoom(id, change);
 
     }
-
 
 
 }

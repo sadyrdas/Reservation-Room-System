@@ -9,14 +9,13 @@ CREATE TABLE roles
 
 CREATE TABLE users
 (
-    id         SERIAL PRIMARY KEY                      NOT NULL,
-    email      VARCHAR(255) UNIQUE                      NOT NULL,
-    first_name VARCHAR(255)                             NOT NULL,
-    last_name  VARCHAR(255)                             NOT NULL,
-    password   VARCHAR(255)                             NOT NULL,
-    money      DOUBLE PRECISION                         NOT NULL,
-    role_id integer not null,
-    CONSTRAINT users_fk_roles foreign key (role_id) references roles (id)
+    id         SERIAL                    NOT NULL,
+    email      VARCHAR(255)              NOT NULL,
+    first_name VARCHAR(255)              NOT NULL,
+    last_name  VARCHAR(255)              NOT NULL,
+    password   VARCHAR(255)              NOT NULL,
+    money      DOUBLE PRECISION          NOT NULL,
+    primary key (id, email)
 );
 
 
@@ -29,6 +28,12 @@ CREATE TABLE StudyRoom
     isAvailable boolean not null
 );
 
+CREATE TABLE Day
+(
+    id   SERIAL      NOT NULL PRIMARY KEY,
+    posting_date DATE not null unique
+
+);
 
 CREATE TABLE Slot
 (
@@ -37,18 +42,13 @@ CREATE TABLE Slot
     start     varchar(255) NOT NULL,
     finish    varchar(255) NOT NULL,
     price double precision not null ,
-    user_email integer ,
+    user_id integer ,
     day integer not null,
     studyroom_id integer not null ,
     paid boolean not null ,
     CONSTRAINT slot_fk_day foreign key (day) references Day (id),
---     CONSTRAINT slot_fk_studyroom foreign key (studyroom_id) references StudyRoom (id),
-    constraint slot_fk_users foreign key (user_email) references users (id)
-);
-CREATE TABLE Day
-(
-    id   SERIAL      NOT NULL PRIMARY KEY,
-    posting_date DATE not null unique
+     CONSTRAINT slot_fk_studyroom foreign key (studyroom_id) references StudyRoom (id),
+    constraint slot_fk_users foreign key (user_id) references users (id)
 );
 
 CREATE TABLE User_Role
@@ -58,5 +58,3 @@ CREATE TABLE User_Role
     constraint fk_user foreign key (user_id) references users (id),
     constraint fk_role foreign key (role_id) references roles (id)
 );
-alter table slot add constraint fk_studyroom_slot foreign key (studyroom_id) references StudyRoom (id);
-alter table slot alter column user_email drop not null;
