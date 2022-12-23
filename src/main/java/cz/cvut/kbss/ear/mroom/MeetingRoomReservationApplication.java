@@ -87,12 +87,12 @@ public class MeetingRoomReservationApplication {
         return dayDao.findAll();
     }
 
-    @Transactional
-    @GetMapping("getSlotByUser")
-    public Boolean printSlotByUser() {
-        slotDao.createNewSlot(new Slot("00:00", "01:00",  125.00, false, userDao.findByEmail("test2@test.test"),dayDao.findByDate(LocalDate.of(2022, 1, 22)), studyRoomDao.findById(3) ));
-        return Boolean.TRUE;
-    }
+//    @Transactional
+//    @GetMapping("getSlotByUser")
+//    public Boolean printSlotByUser() {
+//        slotService.createSlot(new Slot("00:00","01:00",   125.00, false, userDao.findByEmail("test100@test.test"), dayDao.findByDate(LocalDate.of(2022, 1, 22)), studyRoomDao.findById(3) ));
+//        return Boolean.TRUE;
+//    }
 
     @Transactional
     @GetMapping("changeSlot")

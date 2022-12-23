@@ -15,7 +15,7 @@ public class UserRole extends AbstractEntity {
     @Column(nullable = false)
     private String name;
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
     private Set<User> users;
 
 
