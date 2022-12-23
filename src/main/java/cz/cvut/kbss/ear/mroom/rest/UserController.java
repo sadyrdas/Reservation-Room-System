@@ -1,5 +1,6 @@
 package cz.cvut.kbss.ear.mroom.rest;
 
+import cz.cvut.kbss.ear.mroom.dao.UserDao;
 import cz.cvut.kbss.ear.mroom.dao.UserRoleDao;
 import cz.cvut.kbss.ear.mroom.model.User;
 import cz.cvut.kbss.ear.mroom.rest.util.RestUtil;
@@ -24,11 +25,13 @@ public class UserController {
     private final UserRoleDao userRoleDao;
 
     private final UserService userService;
+    private final UserDao userDao;
 
     @Autowired
-    public UserController(UserRoleDao userRoleDao, UserService userService) {
+    public UserController(UserRoleDao userRoleDao, UserService userService, UserDao userDao) {
         this.userRoleDao = userRoleDao;
         this.userService = userService;
+        this.userDao = userDao;
     }
 
 
@@ -61,4 +64,13 @@ public class UserController {
     }
 
 
+    @PreAuthorize("hasAnyRole('ROLE_STUDENT', 'ROLE_CLIENT')")
+    @GetMapping(value = "/payForSlot/{id}/{money}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> putUpMoney(@PathVariable Integer id, @PathVariable Double money) {
+        userService.putUpMoney(userDao.find(id), money);
+        LOG.info("User with id {} put up {} money", id, money);
+        final HttpHeaders headers = RestUtil.createLocationHeaderFromCurrentUri("/current");
+        return new ResponseEntity<>(headers, HttpStatus.OK);
+    }
 }

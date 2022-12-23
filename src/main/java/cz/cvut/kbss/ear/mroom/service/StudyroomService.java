@@ -22,6 +22,11 @@ public class StudyroomService {
     }
 
     @Transactional
+    public StudyRoom findStudyRoomById(Integer id) {
+        return studyRoomDao.find(id);
+    }
+
+    @Transactional
     public Boolean createStudyroom(Integer capacity, Integer price, Boolean isAvailable) {
 
         Boolean ret = false;

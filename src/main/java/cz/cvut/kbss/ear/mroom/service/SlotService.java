@@ -29,15 +29,12 @@ public class SlotService {
         Objects.requireNonNull(start);
         Objects.requireNonNull(finish);
         Objects.requireNonNull(price);
-        Objects.requireNonNull(user);
         Objects.requireNonNull(day);
         Objects.requireNonNull(studyRoom);
 
         Boolean ret = false;
 
-        if (start.isEmpty() || finish.isEmpty() || user.getEmail().isEmpty()) {
-            return ret;
-        } else if (slotDao.findByPrice(price) != null) {
+        if (start.isEmpty() || finish.isEmpty()) {
             return ret;
         } else {
             slotDao.createNewSlot(new Slot(start, finish, price, paid, user, day, studyRoom));
