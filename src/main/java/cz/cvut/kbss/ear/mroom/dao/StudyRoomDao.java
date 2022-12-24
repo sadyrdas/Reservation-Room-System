@@ -14,11 +14,12 @@ public class StudyRoomDao extends BaseDao<StudyRoom>{
         super(StudyRoom.class);
     }
 
-
     @Transactional
     public List<StudyRoom> getAvailableRooms(boolean status){
         try {
-            return em.createNamedQuery("Studyroom.findAllAvailableRooms", StudyRoom.class).setParameter("isavailable", status).getResultList();
+            return em.createNamedQuery("Studyroom.findAllAvailableRooms", StudyRoom.class)
+                    .setParameter("isavailable", status)
+                    .getResultList();
         } catch (NoResultException e) {
             return null;
         }

@@ -2,9 +2,13 @@ package cz.cvut.kbss.ear.mroom.rest;
 
 import cz.cvut.kbss.ear.mroom.dao.UserDao;
 import cz.cvut.kbss.ear.mroom.dao.UserRoleDao;
+import cz.cvut.kbss.ear.mroom.exception.InsufficientAuthority;
+import cz.cvut.kbss.ear.mroom.model.Slot;
 import cz.cvut.kbss.ear.mroom.model.User;
 import cz.cvut.kbss.ear.mroom.rest.util.RestUtil;
+import cz.cvut.kbss.ear.mroom.security.SecurityUtils;
 import cz.cvut.kbss.ear.mroom.security.model.AuthenticationToken;
+import cz.cvut.kbss.ear.mroom.service.SlotService;
 import cz.cvut.kbss.ear.mroom.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +21,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -26,12 +31,14 @@ public class UserController {
 
     private final UserService userService;
     private final UserDao userDao;
+    private final SlotService slotService;
 
     @Autowired
-    public UserController(UserRoleDao userRoleDao, UserService userService, UserDao userDao) {
+    public UserController(UserRoleDao userRoleDao, UserService userService, UserDao userDao, SlotService slotService) {
         this.userRoleDao = userRoleDao;
         this.userService = userService;
         this.userDao = userDao;
+        this.slotService = slotService;
     }
 
 
@@ -104,4 +111,17 @@ public class UserController {
         final HttpHeaders headers = RestUtil.createLocationHeaderFromCurrentUri("/current");
         return new ResponseEntity<>(headers, HttpStatus.OK);
     }
+
+    @PreAuthorize("hasAnyRole('ROLE_STUDENT', 'ROLE_CLIENT')")
+    @GetMapping(value = "/{userEmail}/slots", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Slot>> findUserSlots(@PathVariable String userEmail) {
+        if(!SecurityUtils.getCurrentUser().isAdmin() && !SecurityUtils.getCurrentUser().getEmail().equals(userEmail)) {
+            throw new InsufficientAuthority("You can only list your slots if they belong to you!");
+        }
+        List<Slot> slots = slotService.findAllSlotsByUserId(userService.findUserByEmail(userEmail));
+        final HttpHeaders headers = RestUtil.createLocationHeaderFromCurrentUri("/{userEmail}/courses", userEmail);
+        return ResponseEntity.ok().headers(headers).body(slots);
+    }
+
+
 }

@@ -87,7 +87,11 @@ public class SlotService {
 
     @Transactional
     public List<Slot> findAllSlots() {
-        System.out.println("lol");
         return slotDao.findAll();
+    }
+
+    @Transactional
+    public List<Slot> findAllSlotsByUserId(User user) {
+        return slotDao.findAllSlotsByUserEmail(user);
     }
 }

@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 @Table(name = "slot")
 @NamedQueries({
-        @NamedQuery(name = "Slot.findByUserEmail", query = "SELECT s FROM Slot s WHERE s.user = :email"),
+        @NamedQuery(name = "Slot.findByUserEmail", query = "SELECT s FROM Slot s WHERE s.user = :user"),
         @NamedQuery(name = "Slot.findPriceById", query = "SELECT s FROM Slot s WHERE s.price = :price"),
         @NamedQuery(name = "Slot.findByStudyroomID", query = "SELECT s From Slot s Where s.studyroom_id = :studyroom_id"),
         @NamedQuery(name = "Slot.findById", query = "SELECT s FROM Slot s WHERE s.id = :id"),

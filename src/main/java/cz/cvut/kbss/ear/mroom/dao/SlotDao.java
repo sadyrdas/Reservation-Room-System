@@ -1,7 +1,6 @@
 package cz.cvut.kbss.ear.mroom.dao;
 
 import cz.cvut.kbss.ear.mroom.model.Slot;
-import cz.cvut.kbss.ear.mroom.model.StudyRoom;
 import cz.cvut.kbss.ear.mroom.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -21,9 +20,9 @@ public class SlotDao extends BaseDao<Slot>{
     }
 
     @Transactional
-    public Slot getSlotByUser(User email) {
+    public Slot getSlotByUser(User user) {
         try {
-            return em.createNamedQuery("Slot.findByUserEmail", Slot.class).setParameter("email", email)
+            return em.createNamedQuery("Slot.findByUserEmail", Slot.class).setParameter("user", user)
                     .getSingleResult();
         } catch (NoResultException e) {
             return null;
@@ -51,7 +50,14 @@ public class SlotDao extends BaseDao<Slot>{
         }
     }
 
-
-
+    @Transactional
+    public List<Slot> findAllSlotsByUserEmail(User user) {
+        try {
+            return em.createNamedQuery("Slot.findByUserEmail", Slot.class).setParameter("user", user)
+                    .getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
 
 }
