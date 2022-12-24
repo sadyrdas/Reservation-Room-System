@@ -8,6 +8,9 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Objects;
+
 @Service
 public class StudyroomService {
     private final StudyroomService studyroomService;
@@ -27,7 +30,7 @@ public class StudyroomService {
     }
 
     @Transactional
-    public Boolean createStudyroom(Integer capacity, Integer price, Boolean isAvailable) {
+    public Boolean createStudyroom(Integer capacity, Integer price) {
 
         Boolean ret = false;
 
@@ -35,7 +38,7 @@ public class StudyroomService {
             return ret;
         } else {
             //
-            studyRoomDao.createRoom(new StudyRoom(capacity, price, isAvailable));
+            studyRoomDao.createRoom(new StudyRoom(capacity, price));
         }
 
         return true;
@@ -43,10 +46,18 @@ public class StudyroomService {
 
 
     @Transactional
-    public void updateAvailableRoom(int id, boolean change) {
+    public List<StudyRoom> getRoomByStatus(Boolean isAvailable){
+        return studyRoomDao.getAvailableRooms(isAvailable);
+    }
+
+
+    @Transactional
+    public void updateAvailableRoom(int id, Boolean change) {
         studyRoomDao.updateAvailableRoom(id, change);
 
     }
+
+
 
 
 }

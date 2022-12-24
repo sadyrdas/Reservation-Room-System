@@ -64,6 +64,37 @@ public class UserController {
     }
 
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping(value = "/deleteUserByEmail", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> deleteUser(@RequestBody User user){
+        userService.deleteUserByEmail(user.getEmail());
+        LOG.info("User with email {} was removed", user.getEmail());
+        final HttpHeaders headers = RestUtil.createLocationHeaderFromCurrentUri("/current");
+        return new ResponseEntity<>(headers, HttpStatus.OK);
+    }
+
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping(value = "/updateUserByEmail/{oldEmail}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> updateUser(@RequestBody User user, @PathVariable String oldEmail){
+        userService.updateUserEmailByEmail(oldEmail, user.getEmail());
+        LOG.info("Old userEmail was updated to new {}", user.getEmail());
+        final HttpHeaders headers = RestUtil.createLocationHeaderFromCurrentUri("/current");
+        return new ResponseEntity<>(headers, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping(value = "/getUserByEmail", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public User getUser(@RequestBody User user) {
+        LOG.info("Found user with email {}", user.getEmail());
+        return userService.findUserByEmail(user.getEmail());
+    }
+
+
+
     @PreAuthorize("hasAnyRole('ROLE_STUDENT', 'ROLE_CLIENT')")
     @GetMapping(value = "/payForSlot/{id}/{money}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

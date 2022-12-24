@@ -9,19 +9,22 @@ import java.util.List;
 
 @Repository
 public class StudyRoomDao extends BaseDao<StudyRoom>{
+
     protected StudyRoomDao() {
         super(StudyRoom.class);
     }
 
 
     @Transactional
-    public List<StudyRoom> getAvailableRooms(){
+    public List<StudyRoom> getAvailableRooms(boolean status){
         try {
-            return em.createNamedQuery("Studyroom.findAllAvailableRooms", StudyRoom.class).getResultList();
+            return em.createNamedQuery("Studyroom.findAllAvailableRooms", StudyRoom.class).setParameter("isavailable", status).getResultList();
         } catch (NoResultException e) {
             return null;
         }
     }
+
+
 
     @Transactional
     public Boolean createRoom(StudyRoom studyRoom) {
@@ -48,5 +51,7 @@ public class StudyRoomDao extends BaseDao<StudyRoom>{
         StudyRoom studyRoom = findById(id);
         studyRoom.setAvailable(change);
     }
+
+
 
 }

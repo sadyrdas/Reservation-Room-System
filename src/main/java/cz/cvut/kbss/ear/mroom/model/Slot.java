@@ -1,5 +1,8 @@
 package cz.cvut.kbss.ear.mroom.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +41,7 @@ public class Slot extends AbstractEntity {
     private Day day;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE})
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "studyroom_id", nullable = true)
     private StudyRoom studyroom_id;
 

@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS users, day, slot, studyroom, user_role CASCADE;
+DROP TABLE IF EXISTS users, slot, studyroom, user_role CASCADE;
 
 CREATE TABLE roles
 (
@@ -9,13 +9,13 @@ CREATE TABLE roles
 
 CREATE TABLE users
 (
-    id         SERIAL                    NOT NULL,
-    email      VARCHAR(255)              NOT NULL,
+    id         SERIAL   primary key                NOT NULL,
+    email      VARCHAR(255)         unique     NOT NULL,
     first_name VARCHAR(255)              NOT NULL,
     last_name  VARCHAR(255)              NOT NULL,
     password   VARCHAR(255)              NOT NULL,
-    money      DOUBLE PRECISION          NOT NULL,
-    primary key (id, email)
+    money      DOUBLE PRECISION          NOT NULL
+
 );
 
 
@@ -42,13 +42,13 @@ CREATE TABLE Slot
     finish    varchar(255) NOT NULL,
     price double precision not null ,
     user_id integer ,
-    day integer not null,
-    studyroom_id integer not null ,
+    day integer ,
+    studyroom_id integer  ,
     paid boolean not null ,
 
-    CONSTRAINT slot_fk_day foreign key (day) references Day (id),
-    CONSTRAINT slot_fk_studyroom foreign key (studyroom_id) references StudyRoom (id),
-    constraint slot_fk_users foreign key (user_id) references users (id)
+    CONSTRAINT slot_fk_day foreign key (day) references Day (id) on delete cascade  on update cascade ,
+    CONSTRAINT slot_fk_studyroom foreign key (studyroom_id) references StudyRoom (id)on delete cascade on update cascade ,
+    constraint slot_fk_users foreign key (user_id) references users (id) on delete cascade on update cascade
 );
 
 CREATE TABLE User_Role

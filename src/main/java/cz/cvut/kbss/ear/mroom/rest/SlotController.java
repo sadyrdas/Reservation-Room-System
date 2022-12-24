@@ -7,7 +7,6 @@ import cz.cvut.kbss.ear.mroom.service.DayService;
 import cz.cvut.kbss.ear.mroom.service.SlotService;
 import cz.cvut.kbss.ear.mroom.service.StudyroomService;
 import cz.cvut.kbss.ear.mroom.service.UserService;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

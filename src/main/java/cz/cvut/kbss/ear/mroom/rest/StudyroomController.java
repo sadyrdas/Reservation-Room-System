@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/studyroom")
 public class StudyroomController {
@@ -32,7 +34,7 @@ public class StudyroomController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping(value = "createRoom", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createRoom(@RequestBody StudyRoom studyRoom) {
-        studyroomService.createStudyroom(studyRoom.getCapacity(), studyRoom.getPrice(), studyRoom.isAvailable());
+        studyroomService.createStudyroom(studyRoom.getCapacity(), studyRoom.getPrice());
         LOG.info("Studyroom with id {} successfully added.", studyRoom.getId());
         final HttpHeaders headers = RestUtil.createLocationHeaderFromCurrentUri("/current");
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
@@ -43,12 +45,17 @@ public class StudyroomController {
     @ResponseStatus(value = HttpStatus.ACCEPTED)
     public ResponseEntity<Void> updateStatusRoom(@PathVariable Integer id, @RequestBody String status) {
         studyroomService.updateAvailableRoom(id, Boolean.parseBoolean(status));
-        LOG.info("kek {}", id);
-        LOG.info("IDI NAXUY {}" , Boolean.parseBoolean(status));
         LOG.info("RoomStatus with id {} successfully updated.", id);
         final HttpHeaders headers = RestUtil.createLocationHeaderFromCurrentUri("/current");
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    }
 
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping(value = "/getAllAvailableRooms/{status}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<StudyRoom> getAllAvailableRooms(@PathVariable Boolean status){
+        LOG.info("Got all rooms with status : {}", status);
+        return studyroomService.getRoomByStatus(status);
     }
 
 }

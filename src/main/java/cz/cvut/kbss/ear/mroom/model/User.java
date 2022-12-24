@@ -2,6 +2,8 @@ package cz.cvut.kbss.ear.mroom.model;
 
 
 import cz.cvut.kbss.ear.mroom.exception.NotEnoughMoney;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
@@ -41,6 +43,7 @@ public class User extends AbstractEntity {
 
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),

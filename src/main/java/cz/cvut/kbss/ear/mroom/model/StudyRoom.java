@@ -1,16 +1,20 @@
 package cz.cvut.kbss.ear.mroom.model;
 
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
 @Table(name = "studyroom")
 @NamedQueries({
-        @NamedQuery(name = "Studyroom.findAllAvailableRooms", query = "SELECT st FROM StudyRoom st where st.isAvailable = true  "),
-        @NamedQuery(name = "Studyroom.findById", query = "SELECT st from StudyRoom st where st.id = :id")
+        @NamedQuery(name = "Studyroom.findAllAvailableRooms", query = "SELECT st FROM StudyRoom st where st.isAvailable = :isavailable"),
+        @NamedQuery(name = "Studyroom.findById", query = "SELECT st from StudyRoom st where st.id = :id"),
 })
 public class StudyRoom extends AbstractEntity{
     @Basic(optional = false)
@@ -29,13 +33,15 @@ public class StudyRoom extends AbstractEntity{
     private boolean isAvailable;
 
 
+    @OneToMany(mappedBy = "studyroom_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Set<Slot> slots;
 
 
 
-
-    public StudyRoom(Integer capacity, Integer price, boolean isAvailable) {
+    public StudyRoom(Integer capacity, Integer price) {
         this.capacity = capacity;
-        this.isAvailable = isAvailable;
+        this.isAvailable = true;
         this.price = price;
     }
 
