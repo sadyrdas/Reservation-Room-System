@@ -52,8 +52,8 @@ public class UserController {
         return auth.getPrincipal().getUser();
     }
 
-    @GetMapping(value = "/admin", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/admin", produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> registerAdmin(@RequestBody User user) {
         userService.createUser(user.getEmail(), user.getFirst_name(), user.getLast_name(),
                 user.getPassword(),  userRoleDao.getAllRoles(3));
@@ -96,7 +96,7 @@ public class UserController {
 
 
     @PreAuthorize("hasAnyRole('ROLE_STUDENT', 'ROLE_CLIENT')")
-    @GetMapping(value = "/payForSlot/{id}/{money}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/putUpMoney/{id}/{money}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> putUpMoney(@PathVariable Integer id, @PathVariable Double money) {
         userService.putUpMoney(userDao.find(id), money);

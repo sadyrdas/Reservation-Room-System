@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -54,6 +55,7 @@ public class SlotController {
         return new ResponseEntity<>(headers, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(value = "/createSlot", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createSlot(@RequestBody Map<String, String> slot) {
@@ -65,6 +67,35 @@ public class SlotController {
                 studyroomService.findStudyRoomById(Integer.parseInt(slot.get("studyroom_id"))));
 
         LOG.info("Created slot with!");
+        final HttpHeaders headers = RestUtil.createLocationHeaderFromCurrentUri("/current");
+        return new ResponseEntity<>(headers, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping(
+            value = "/deleteSlot/{id}")
+    public ResponseEntity<Void> deleteSlotById(@PathVariable Integer id) {
+        slotService.deleteSlotById(id);
+        final HttpHeaders headers = RestUtil.createLocationHeaderFromCurrentUri("/current");
+        return new ResponseEntity<>(headers, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT', 'ROLE_STUDENT')")
+    @GetMapping(
+            value = "/getAllSlots",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public List<Slot> getAllSlots() {
+        return slotService.findAllSlots();
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping(
+            value = "/updateDay/{id}"
+    )
+    public ResponseEntity<Void> updateSlotDayById(@PathVariable Integer id, @RequestBody Map<String, String> date) {
+        LOG.info(date.get("posting_date"));
+        slotService.changeDay(slotService.findSlotById(id), dayService.findDayByDate(LocalDate.parse(date.get("posting_date"))));
         final HttpHeaders headers = RestUtil.createLocationHeaderFromCurrentUri("/current");
         return new ResponseEntity<>(headers, HttpStatus.OK);
     }

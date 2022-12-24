@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+
 @Service
 public class DayService {
     private final DayDao dayDao;
@@ -18,5 +20,15 @@ public class DayService {
     @Transactional
     public Day findDayById(Integer id) {
         return dayDao.find(id);
+    }
+
+    @Transactional
+    public Day findDayByDate(LocalDate localDate) {
+        return dayDao.findByDate(localDate);
+    }
+
+    @Transactional
+    public void createDay(Day day) {
+        dayDao.persist(day);
     }
 }

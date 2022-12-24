@@ -6,6 +6,9 @@ import cz.cvut.kbss.ear.mroom.model.Day;
 import cz.cvut.kbss.ear.mroom.model.Slot;
 import cz.cvut.kbss.ear.mroom.model.StudyRoom;
 import cz.cvut.kbss.ear.mroom.model.User;
+import cz.cvut.kbss.ear.mroom.rest.UserController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +18,7 @@ import java.util.Objects;
 
 @Service
 public class SlotService {
+    private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
     private final SlotDao slotDao;
     private final StudyRoomDao studyRoomDao;
 
@@ -55,6 +59,12 @@ public class SlotService {
     }
 
     @Transactional
+    public void changeDay(Slot slot, Day day) {
+        slot.setDay(day);
+        slotDao.update(slot);
+    }
+
+    @Transactional
     public void setSlotOwner(Slot slot, User owner) {
         slot.setUser(owner);
         slotDao.update(slot);
@@ -65,4 +75,19 @@ public class SlotService {
         return slotDao.find(id);
     }
 
+    @Transactional
+    public void deleteSlotById(Integer id) {
+        if (findSlotById(id) != null) {
+            slotDao.remove(findSlotById(id));
+            LOG.info("Slot with id {} was deleted.", id);
+            return;
+        }
+        LOG.error("Cannot find slot by id {}. So it can not be deleted.", id);
+    }
+
+    @Transactional
+    public List<Slot> findAllSlots() {
+        System.out.println("lol");
+        return slotDao.findAll();
+    }
 }

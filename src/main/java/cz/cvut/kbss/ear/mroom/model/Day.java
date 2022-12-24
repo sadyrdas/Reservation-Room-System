@@ -1,5 +1,7 @@
 package cz.cvut.kbss.ear.mroom.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -19,6 +21,7 @@ public class Day extends AbstractEntity {
 
 
     @OneToMany(mappedBy = "day")
+    @JsonBackReference
     private Set<Slot> slotSet;
 
 

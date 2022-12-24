@@ -46,9 +46,9 @@ CREATE TABLE Slot
     studyroom_id integer  ,
     paid boolean not null ,
 
-    CONSTRAINT slot_fk_day foreign key (day) references Day (id) on delete cascade  on update cascade ,
-    CONSTRAINT slot_fk_studyroom foreign key (studyroom_id) references StudyRoom (id)on delete cascade on update cascade ,
-    constraint slot_fk_users foreign key (user_id) references users (id) on delete cascade on update cascade
+    CONSTRAINT slot_fk_day foreign key (day) references Day (id)  ,
+    CONSTRAINT slot_fk_studyroom foreign key (studyroom_id) references StudyRoom (id) ,
+    constraint slot_fk_users foreign key (user_id) references users (id)
 );
 
 CREATE TABLE User_Role
