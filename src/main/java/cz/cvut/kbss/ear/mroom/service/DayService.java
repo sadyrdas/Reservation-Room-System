@@ -31,4 +31,9 @@ public class DayService {
     public void createDay(Day day) {
         dayDao.persist(day);
     }
+
+    @Transactional
+    public void deleteDay(LocalDate date){
+        dayDao.deleteDayByDate(date);
+    }
 }

@@ -24,5 +24,9 @@ public class DayDao extends BaseDao<Day> {
             return null;
         }
     }
+    @Transactional
+    public void deleteDayByDate(LocalDate date){
+        remove(findByDate(date));
+    }
 
 }

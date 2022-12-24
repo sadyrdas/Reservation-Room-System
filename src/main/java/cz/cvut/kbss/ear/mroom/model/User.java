@@ -4,6 +4,7 @@ package cz.cvut.kbss.ear.mroom.model;
 import cz.cvut.kbss.ear.mroom.exception.NotEnoughMoney;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
@@ -49,6 +50,8 @@ public class User extends AbstractEntity {
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
+
+
 
     private List<UserRole> roles;
 

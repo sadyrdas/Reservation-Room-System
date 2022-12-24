@@ -12,10 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/days")
@@ -33,6 +30,15 @@ public class DayController {
     public ResponseEntity<Void> addDay(@RequestBody Day day) {
         dayService.createDay(day);
         LOG.info("Day was created with id: {}, with date: {}", day.getId(), day.getPosting_date());
+        final HttpHeaders headers = RestUtil.createLocationHeaderFromCurrentUri("/current");
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping(value = "/deleteDay", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> deleteDay(@RequestBody Day day) {
+        dayService.deleteDay(day.getPosting_date());
+        LOG.info("Day {} was deleted", day.getPosting_date());
         final HttpHeaders headers = RestUtil.createLocationHeaderFromCurrentUri("/current");
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
