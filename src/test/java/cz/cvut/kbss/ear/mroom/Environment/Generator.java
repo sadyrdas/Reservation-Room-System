@@ -1,6 +1,7 @@
 package cz.cvut.kbss.ear.mroom.Environment;
 
 
+import cz.cvut.kbss.ear.mroom.model.StudyRoom;
 import cz.cvut.kbss.ear.mroom.model.User;
 
 import java.util.Random;
@@ -8,6 +9,10 @@ import java.util.Random;
 public class Generator {
 
     private static final Random RAND = new Random();
+
+    public static double randomDouble(){
+        return RAND.nextDouble();
+    }
 
     public static int randomInt() {
         return RAND.nextInt();
@@ -40,6 +45,13 @@ public class Generator {
         user.setPassword(Integer.toString(randomInt()));
 //        user.setRole_id(1); //TODO
         return user;
+    }
+
+    public static StudyRoom generateStudyRoom(){
+        final StudyRoom studyRoom = new StudyRoom();
+        studyRoom.setPrice((randomInt()));
+        studyRoom.setCapacity((randomInt()));
+        return studyRoom;
     }
 
 }
