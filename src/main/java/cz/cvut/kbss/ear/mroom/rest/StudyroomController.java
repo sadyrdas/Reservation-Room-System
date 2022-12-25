@@ -58,4 +58,13 @@ public class StudyroomController {
         return studyroomService.getRoomByStatus(status);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT', 'ROLE_STUDENT')")
+    @GetMapping(
+            value = "getStudyRoom/{id}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public StudyRoom getStudyRoomById(@PathVariable Integer id) {
+        LOG.info("Get studyroom with id: " + id);
+        return studyroomService.findStudyRoomById(id);
+    }
 }

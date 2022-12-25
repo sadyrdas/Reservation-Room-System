@@ -46,11 +46,11 @@ public class UserController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ExceptionHandler({UserAlreadyExists.class})
-    public ResponseEntity<Boolean> register(@RequestBody User user) {
+    public ResponseEntity<Void> register(@RequestBody User user) {
         Boolean result = userService.createUser(user.getEmail(), user.getFirst_name(), user.getLast_name(),
                 user.getPassword(),  userRoleDao.getAllRoles(1));
         if (!result) {
-            throw  new UserAlreadyExists("User with that email " + user.getEmail() + " already exists");
+            throw new UserAlreadyExists("User with that email " + user.getEmail() + " already exists");
         }
         LOG.info("User with email {} successfully registered.", user.getEmail());
         final HttpHeaders headers = RestUtil.createLocationHeaderFromCurrentUri("/current");
