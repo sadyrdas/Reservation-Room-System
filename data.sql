@@ -1,10 +1,10 @@
 DROP TABLE IF EXISTS users, day, slot, studyroom, user_role CASCADE;
 
--- CREATE TABLE roles
--- (
---     id   SERIAL  NOT NULL PRIMARY KEY,
---     name VARCHAR(255)
--- );
+CREATE TABLE roles
+(
+    id   SERIAL  NOT NULL PRIMARY KEY,
+    name VARCHAR(255)
+);
 
 
 CREATE TABLE users

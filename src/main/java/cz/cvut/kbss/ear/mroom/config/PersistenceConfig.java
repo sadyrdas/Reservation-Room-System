@@ -37,7 +37,7 @@ public class PersistenceConfig extends JpaBaseConfiguration {
     protected Map<String, Object> getVendorProperties() {
         final Map<String, Object> props = new HashMap<>();
         props.put("eclipselink.weaving", "static");
-        props.put("eclipselink.ddl-generation", environment.getRequiredProperty("eclipselink.ddl-generation"));
+//        props.put("eclipselink.ddl-generation", environment.getRequiredProperty("eclipselink.ddl-generation"));
         return props;
     }
 }
