@@ -53,6 +53,10 @@ public class StudyRoomDao extends BaseDao<StudyRoom>{
         studyRoom.setAvailable(change);
     }
 
-
+    @Transactional
+    public void deleteRoomById(int id) {
+        StudyRoom studyRoom = findById(id);
+        em.remove(studyRoom);
+    }
 
 }

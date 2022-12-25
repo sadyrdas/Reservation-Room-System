@@ -4,7 +4,7 @@ import cz.cvut.kbss.ear.mroom.exception.NotFoundException;
 import cz.cvut.kbss.ear.mroom.model.Slot;
 import cz.cvut.kbss.ear.mroom.model.User;
 import cz.cvut.kbss.ear.mroom.rest.util.RestUtil;
-import cz.cvut.kbss.ear.mroom.service.DayService;
+import cz.cvut.kbss.ear.mroom.service.ReservationDateService;
 import cz.cvut.kbss.ear.mroom.service.SlotService;
 import cz.cvut.kbss.ear.mroom.service.StudyroomService;
 import cz.cvut.kbss.ear.mroom.service.UserService;
@@ -29,14 +29,14 @@ public class SlotController {
     private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
     private UserService userService;
     private final SlotService slotService;
-    private final DayService dayService;
+    private final ReservationDateService reservationDateService;
     private final StudyroomService studyroomService;
 
     @Autowired
-    public SlotController(UserService userService, SlotService slotService, DayService dayService, StudyroomService studyroomService) {
+    public SlotController(UserService userService, SlotService slotService, ReservationDateService reservationDateService, StudyroomService studyroomService) {
         this.userService = userService;
         this.slotService = slotService;
-        this.dayService = dayService;
+        this.reservationDateService = reservationDateService;
         this.studyroomService = studyroomService;
     }
 
@@ -64,7 +64,7 @@ public class SlotController {
         slotService.createSlot(
                 slot.get("start"), slot.get("finish"),
                 Double.parseDouble(slot.get("price")), false, null,
-                dayService.findDayById(Integer.parseInt(slot.get("day"))),
+                reservationDateService.findDayById(Integer.parseInt(slot.get("day"))),
                 studyroomService.findStudyRoomById(Integer.parseInt(slot.get("studyroom_id"))));
 
         LOG.info("Created slot with!");
@@ -95,7 +95,7 @@ public class SlotController {
             value = "/updateDay/{id}"
     )
     public ResponseEntity<Void> updateSlotDayById(@PathVariable Integer id, @RequestBody Map<String, String> date) {
-        slotService.changeDay(slotService.findSlotById(id), dayService.findDayByDate(LocalDate.parse(date.get("posting_date"))));
+        slotService.changeDay(slotService.findSlotById(id), reservationDateService.findDayByDate(LocalDate.parse(date.get("posting_date"))));
         final HttpHeaders headers = RestUtil.createLocationHeaderFromCurrentUri("/current");
         return new ResponseEntity<>(headers, HttpStatus.OK);
     }

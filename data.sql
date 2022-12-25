@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS users, slot, studyroom, user_role CASCADE;
+DROP TABLE IF EXISTS users, day, slot, studyroom, user_role CASCADE;
 
 CREATE TABLE roles
 (
@@ -28,7 +28,7 @@ CREATE TABLE StudyRoom
     isAvailable boolean not null
 );
 
-CREATE TABLE Day
+CREATE TABLE ReservationDate
 (
     id   SERIAL      NOT NULL PRIMARY KEY,
     posting_date DATE not null unique
@@ -46,7 +46,7 @@ CREATE TABLE Slot
     studyroom_id integer  ,
     paid boolean not null ,
 
-    CONSTRAINT slot_fk_day foreign key (day) references Day (id)  ,
+    CONSTRAINT slot_fk_day foreign key (day) references ReservationDate (id)  ,
     CONSTRAINT slot_fk_studyroom foreign key (studyroom_id) references StudyRoom (id) ,
     constraint slot_fk_users foreign key (user_id) references users (id)
 );

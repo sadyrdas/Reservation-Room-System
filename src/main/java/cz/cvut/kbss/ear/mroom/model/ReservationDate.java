@@ -3,17 +3,16 @@ package cz.cvut.kbss.ear.mroom.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Set;
 
 
 @Entity
-@Table(name = "day")
+@Table(name = "reservationdate")
 @NamedQueries({
-        @NamedQuery(name = "Day.findByDate", query = "SELECT d FROM Day d WHERE d.posting_date = :date")
+        @NamedQuery(name = "Day.findByDate", query = "SELECT d FROM ReservationDate d WHERE d.posting_date = :date")
 })
-public class Day extends AbstractEntity {
+public class ReservationDate extends AbstractEntity {
 
     @Basic(optional = false)
     @Column(nullable = false)
@@ -25,11 +24,11 @@ public class Day extends AbstractEntity {
     private Set<Slot> slotSet;
 
 
-    public Day(LocalDate posting_date) {
+    public ReservationDate(LocalDate posting_date) {
         this.posting_date = posting_date;
     }
 
-    public Day() {
+    public ReservationDate() {
     }
 
 

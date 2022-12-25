@@ -1,11 +1,6 @@
 package cz.cvut.kbss.ear.mroom.model;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "slot")
@@ -38,7 +33,7 @@ public class Slot extends AbstractEntity {
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "day", nullable = false)
-    private Day day;
+    private ReservationDate day;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "studyroom_id", nullable = true)
@@ -55,7 +50,7 @@ public class Slot extends AbstractEntity {
 
 
 
-    public Slot(String start, String finish,  Double price, boolean paid, User user, Day day, StudyRoom studyRoom) {
+    public Slot(String start, String finish, Double price, boolean paid, User user, ReservationDate day, StudyRoom studyRoom) {
         this.start = start;
         this.finish = finish;
         this.paid = paid;
@@ -65,7 +60,7 @@ public class Slot extends AbstractEntity {
         this.studyroom_id = studyRoom;
     }
 
-    public Slot( String start, String finish, Double price, boolean paid, Day day, StudyRoom studyRoom) {
+    public Slot(String start, String finish, Double price, boolean paid, ReservationDate day, StudyRoom studyRoom) {
         this.price = price;
         this.paid = paid;
         this.start = start;
@@ -82,11 +77,11 @@ public class Slot extends AbstractEntity {
         return start;
     }
 
-    public Day getDay() {
+    public ReservationDate getDay() {
         return day;
     }
 
-    public void setDay(Day day) {
+    public void setDay(ReservationDate day) {
         this.day = day;
     }
 

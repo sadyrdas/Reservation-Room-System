@@ -2,7 +2,7 @@ package cz.cvut.kbss.ear.mroom.Environment;
 
 
 import cz.cvut.kbss.ear.mroom.model.StudyRoom;
-import cz.cvut.kbss.ear.mroom.model.Day;
+import cz.cvut.kbss.ear.mroom.model.ReservationDate;
 import cz.cvut.kbss.ear.mroom.model.Slot;
 import cz.cvut.kbss.ear.mroom.model.User;
 
@@ -75,8 +75,8 @@ public class Generator {
         return slot;
     }
 
-    public static Day generateDay() {
-        final Day day = new Day();
+    public static ReservationDate generateDay() {
+        final ReservationDate day = new ReservationDate();
         day.setPosting_date(LocalDate.now());
         return day;
     }

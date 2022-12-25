@@ -2,7 +2,7 @@ package cz.cvut.kbss.ear.mroom.service;
 
 import cz.cvut.kbss.ear.mroom.dao.SlotDao;
 import cz.cvut.kbss.ear.mroom.dao.StudyRoomDao;
-import cz.cvut.kbss.ear.mroom.model.Day;
+import cz.cvut.kbss.ear.mroom.model.ReservationDate;
 import cz.cvut.kbss.ear.mroom.model.Slot;
 import cz.cvut.kbss.ear.mroom.model.StudyRoom;
 import cz.cvut.kbss.ear.mroom.model.User;
@@ -29,7 +29,7 @@ public class SlotService {
     }
 
     @Transactional
-    public Boolean createSlot(String start, String finish, Double price, Boolean paid, User user, Day day, StudyRoom studyRoom) {
+    public Boolean createSlot(String start, String finish, Double price, Boolean paid, User user, ReservationDate day, StudyRoom studyRoom) {
         Objects.requireNonNull(start);
         Objects.requireNonNull(finish);
         Objects.requireNonNull(price);
@@ -59,7 +59,7 @@ public class SlotService {
     }
 
     @Transactional
-    public void changeDay(Slot slot, Day day) {
+    public void changeDay(Slot slot, ReservationDate day) {
         slot.setDay(day);
         slotDao.update(slot);
     }

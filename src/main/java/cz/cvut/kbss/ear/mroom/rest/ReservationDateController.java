@@ -1,9 +1,8 @@
 package cz.cvut.kbss.ear.mroom.rest;
 
-import cz.cvut.kbss.ear.mroom.model.Day;
-import cz.cvut.kbss.ear.mroom.model.User;
+import cz.cvut.kbss.ear.mroom.model.ReservationDate;
 import cz.cvut.kbss.ear.mroom.rest.util.RestUtil;
-import cz.cvut.kbss.ear.mroom.service.DayService;
+import cz.cvut.kbss.ear.mroom.service.ReservationDateService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,19 +15,19 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/days")
-public class DayController {
+public class ReservationDateController {
     private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
-    private final DayService dayService;
+    private final ReservationDateService reservationDateService;
 
     @Autowired
-    public DayController(DayService dayService) {
-        this.dayService = dayService;
+    public ReservationDateController(ReservationDateService reservationDateService) {
+        this.reservationDateService = reservationDateService;
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> addDay(@RequestBody Day day) {
-        dayService.createDay(day);
+    public ResponseEntity<Void> addDay(@RequestBody ReservationDate day) {
+        reservationDateService.createDay(day);
         LOG.info("Day was created with id: {}, with date: {}", day.getId(), day.getPosting_date());
         final HttpHeaders headers = RestUtil.createLocationHeaderFromCurrentUri("/current");
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
@@ -36,8 +35,8 @@ public class DayController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping(value = "/deleteDay", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> deleteDay(@RequestBody Day day) {
-        dayService.deleteDay(day.getPosting_date());
+    public ResponseEntity<Void> deleteDay(@RequestBody ReservationDate day) {
+        reservationDateService.deleteDay(day.getPosting_date());
         LOG.info("Day {} was deleted", day.getPosting_date());
         final HttpHeaders headers = RestUtil.createLocationHeaderFromCurrentUri("/current");
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
