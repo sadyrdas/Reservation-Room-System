@@ -3,6 +3,8 @@ package cz.cvut.kbss.ear.mroom.rest;
 import cz.cvut.kbss.ear.mroom.dao.UserDao;
 import cz.cvut.kbss.ear.mroom.dao.UserRoleDao;
 import cz.cvut.kbss.ear.mroom.exception.InsufficientAuthority;
+import cz.cvut.kbss.ear.mroom.exception.NotFoundException;
+import cz.cvut.kbss.ear.mroom.exception.UserAlreadyExists;
 import cz.cvut.kbss.ear.mroom.model.Slot;
 import cz.cvut.kbss.ear.mroom.model.User;
 import cz.cvut.kbss.ear.mroom.rest.util.RestUtil;
@@ -43,10 +45,13 @@ public class UserController {
 
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> register(@RequestBody User user) {
-        userService.createUser(user.getEmail(), user.getFirst_name(), user.getLast_name(),
+    @ExceptionHandler({UserAlreadyExists.class})
+    public ResponseEntity<Boolean> register(@RequestBody User user) {
+        Boolean result = userService.createUser(user.getEmail(), user.getFirst_name(), user.getLast_name(),
                 user.getPassword(),  userRoleDao.getAllRoles(1));
-
+        if (!result) {
+            throw  new UserAlreadyExists("User with that email " + user.getEmail() + " already exists");
+        }
         LOG.info("User with email {} successfully registered.", user.getEmail());
         final HttpHeaders headers = RestUtil.createLocationHeaderFromCurrentUri("/current");
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
@@ -72,10 +77,13 @@ public class UserController {
 
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping(value = "/deleteUserByEmail", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/deleteUserByEmail", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> deleteUser(@RequestBody User user){
-        userService.deleteUserByEmail(user.getEmail());
+        Boolean u = userService.deleteUserByEmail(user.getEmail());
+        if (!u) {
+            throw new NotFoundException("User with that email" + user.getEmail() + " doesn't exist");
+        }
         LOG.info("User with email {} was removed", user.getEmail());
         final HttpHeaders headers = RestUtil.createLocationHeaderFromCurrentUri("/current");
         return new ResponseEntity<>(headers, HttpStatus.OK);
@@ -83,7 +91,7 @@ public class UserController {
 
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping(value = "/updateUserByEmail/{oldEmail}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/updateUserByEmail/{oldEmail}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> updateUser(@RequestBody User user, @PathVariable String oldEmail){
         userService.updateUserEmailByEmail(oldEmail, user.getEmail());
@@ -96,8 +104,12 @@ public class UserController {
     @GetMapping(value = "/getUserByEmail", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public User getUser(@RequestBody User user) {
+        User u = userService.findUserByEmail(user.getEmail());
         LOG.info("Found user with email {}", user.getEmail());
-        return userService.findUserByEmail(user.getEmail());
+        if (u == null){
+            throw new NotFoundException("User with that email" + user.getEmail() + " doesn't exist");
+        }
+        return u;
     }
 
 
