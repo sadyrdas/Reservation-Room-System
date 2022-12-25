@@ -2,8 +2,13 @@ package cz.cvut.kbss.ear.mroom.Environment;
 
 
 import cz.cvut.kbss.ear.mroom.model.StudyRoom;
+import cz.cvut.kbss.ear.mroom.model.Day;
+import cz.cvut.kbss.ear.mroom.model.Slot;
 import cz.cvut.kbss.ear.mroom.model.User;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Random;
 
 public class Generator {
@@ -54,4 +59,25 @@ public class Generator {
         return studyRoom;
     }
 
+    public static String generateUserEmail() {
+        return "email" + randomInt() + "@kbss.felk.cvut.cz";
+    }
+
+    public static Slot generateSlot(){
+        final Slot slot = new Slot();
+        DateFormat sdf = new SimpleDateFormat("HH:mm");
+        String randomStart = (RAND.nextInt(21) + 4) + ":" + (RAND.nextInt(56) + 5);
+        String randomFinish = (RAND.nextInt(21) + 4) + ":" + (RAND.nextInt(56) + 5);
+        slot.setDay(generateDay());
+        slot.setStudyroom_id(generateStudyRoom());
+        slot.setStart(randomStart);
+        slot.setFinish(randomFinish);
+        return slot;
+    }
+
+    public static Day generateDay() {
+        final Day day = new Day();
+        day.setPosting_date(LocalDate.now());
+        return day;
+    }
 }
