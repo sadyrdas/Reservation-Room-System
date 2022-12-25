@@ -32,7 +32,7 @@ public class Slot extends AbstractEntity {
     private String finish;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinColumn(name = "day", nullable = false)
+    @JoinColumn(name = "reservationdate", nullable = false)
     private ReservationDate day;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})

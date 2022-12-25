@@ -32,48 +32,48 @@ public class UserServiceTest {
     @Autowired
     private UserDao userDao;
 
-//    @Test
-//    public void createUserTest() {
-//        final User user = Generator.generateUser();
-//        Boolean result = userService.createUser(user.getEmail(), user.getFirst_name(), user.getLast_name(),
-//                user.getPassword(), user.getRole_id());
-//
-//        assertEquals(true, result);
-//        assertEquals(user.getEmail(), userDao.findByEmail(user.getEmail()).getEmail());
-//    }
-//
-//    @Test
-//    public void createAlreadyExistentUserTest() {
-//        final User user = Generator.generateUser();
-//        Boolean result = userService.createUser(user.getEmail(), user.getFirst_name(), user.getLast_name(),
-//                user.getPassword(), );
-//
-//        assertEquals(true, result);
-//        // Service return false in case of already exsistent user
-//        assertFalse(userService.createUser(user.getEmail(), user.getFirst_name(), user.getLast_name(),
-//                user.getPassword(), user.getRole_id()));
-//    }
-//
-//    @Test
-//    public void deleteUserTest() {
-//        final List<User> users = new ArrayList<>();
-//
-//        for (int i = 0; i < 5; i++) {
-//            final User user = Generator.generateUser();
-//            users.add(user);
-//            em.persist(user);
-//        }
-//
-//        final User user = Generator.generateUser();
-//        users.add(user);
-//        em.persist(user);
-//
-//        assertEquals(users.size(), userDao.getAllUsers().size());
-//        assertEquals(userDao.findByEmail(user.getEmail()).getEmail(), user.getEmail());
-//        userService.deleteUserByEmail(user.getEmail());
-//        assertEquals(users.size() - 1, userDao.getAllUsers().size());
-//        assertNull( userDao.findByEmail(user.getEmail()));
-//    }
+    @Test
+    public void createUserTest() {
+        final User user = Generator.generateUser();
+        Boolean result = userService.createUser(user.getEmail(), user.getFirst_name(), user.getLast_name(),
+                user.getPassword(), user.getRoles());
+
+        assertEquals(true, result);
+        assertEquals(user.getEmail(), userDao.findByEmail(user.getEmail()).getEmail());
+    }
+
+    @Test
+    public void createAlreadyExistentUserTest() {
+        final User user = Generator.generateUser();
+        Boolean result = userService.createUser(user.getEmail(), user.getFirst_name(), user.getLast_name(),
+                user.getPassword(), user.getRoles() );
+
+        assertEquals(true, result);
+        // Service return false in case of already exsistent user
+        assertFalse(userService.createUser(user.getEmail(), user.getFirst_name(), user.getLast_name(),
+                user.getPassword(), user.getRoles()));
+    }
+
+    @Test
+    public void deleteUserTest() {
+        final List<User> users = new ArrayList<>();
+
+        for (int i = 0; i < 5; i++) {
+            final User user = Generator.generateUser();
+            users.add(user);
+            em.persist(user);
+        }
+
+        final User user = Generator.generateUser();
+        users.add(user);
+        em.persist(user);
+
+        assertEquals(users.size(), userDao.getAllUsers().size());
+        assertEquals(userDao.findByEmail(user.getEmail()).getEmail(), user.getEmail());
+        userService.deleteUserByEmail(user.getEmail());
+        assertEquals(users.size() - 1, userDao.getAllUsers().size());
+        assertNull( userDao.findByEmail(user.getEmail()));
+    }
 
     @Test
     public void tryDeleteNotExistentUserTest() {

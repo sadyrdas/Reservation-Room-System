@@ -1,10 +1,10 @@
 DROP TABLE IF EXISTS users, day, slot, studyroom, user_role CASCADE;
 
-CREATE TABLE roles
-(
-    id   SERIAL  NOT NULL PRIMARY KEY,
-    name VARCHAR(255)
-);
+-- CREATE TABLE roles
+-- (
+--     id   SERIAL  NOT NULL PRIMARY KEY,
+--     name VARCHAR(255)
+-- );
 
 
 CREATE TABLE users
@@ -42,11 +42,11 @@ CREATE TABLE Slot
     finish    varchar(255) NOT NULL,
     price double precision not null ,
     user_id integer ,
-    day integer ,
+    reservationdate integer ,
     studyroom_id integer  ,
     paid boolean not null ,
 
-    CONSTRAINT slot_fk_day foreign key (day) references ReservationDate (id)  ,
+    CONSTRAINT slot_fk_day foreign key (reservationdate) references ReservationDate (id)  ,
     CONSTRAINT slot_fk_studyroom foreign key (studyroom_id) references StudyRoom (id) ,
     constraint slot_fk_users foreign key (user_id) references users (id)
 );

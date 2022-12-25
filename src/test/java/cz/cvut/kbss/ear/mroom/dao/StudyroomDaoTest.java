@@ -41,6 +41,7 @@ public class StudyroomDaoTest {
     public void updateStatusTest(){
         final StudyRoom studyRoom = Generator.generateStudyRoom();
         testEntityManager.persist(studyRoom);
+
         studyRoomDao.updateAvailableRoom(studyRoom.getId(), false);
         assertFalse(studyRoomDao.findById(studyRoom.getId()).isAvailable());
     }
@@ -49,6 +50,7 @@ public class StudyroomDaoTest {
     public void deleteRoomTest(){
         final StudyRoom studyRoom = Generator.generateStudyRoom();
         testEntityManager.persist(studyRoom);
+
         studyRoomDao.deleteRoomById(studyRoom.getId());
         assertNull(studyRoomDao.findById(studyRoom.getId()));
     }
