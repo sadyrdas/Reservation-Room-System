@@ -1,5 +1,6 @@
 package cz.cvut.kbss.ear.mroom.rest;
 
+import cz.cvut.kbss.ear.mroom.exception.NotFoundException;
 import cz.cvut.kbss.ear.mroom.model.Slot;
 import cz.cvut.kbss.ear.mroom.model.User;
 import cz.cvut.kbss.ear.mroom.rest.util.RestUtil;
@@ -94,8 +95,48 @@ public class SlotController {
             value = "/updateDay/{id}"
     )
     public ResponseEntity<Void> updateSlotDayById(@PathVariable Integer id, @RequestBody Map<String, String> date) {
-        LOG.info(date.get("posting_date"));
         slotService.changeDay(slotService.findSlotById(id), dayService.findDayByDate(LocalDate.parse(date.get("posting_date"))));
+        final HttpHeaders headers = RestUtil.createLocationHeaderFromCurrentUri("/current");
+        return new ResponseEntity<>(headers, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT', 'ROLE_STUDENT')")
+    @GetMapping(
+            value = "getSlot/{id}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<Slot> getSlotById(@PathVariable Integer id) {
+        Slot slot = slotService.getSlotById(id);
+
+        if (slot == null) {
+            throw new NotFoundException("Slot with id: " + id + " doesn't exist");
+        }
+        final HttpHeaders headers = RestUtil.createLocationHeaderFromCurrentUri("/getSlot{id}", id);
+        return ResponseEntity.ok().headers(headers).body(slot);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_CLIENT', 'ROLE_STUDENT')")
+    @GetMapping(
+            value = "cancelReservation/{userEmail}/{ids}"
+    )
+    public ResponseEntity<Void> cancelReservations(@PathVariable String userEmail, @PathVariable List<Integer> ids) {
+        User user = userService.findUserByEmail(userEmail);
+        if (user == null) {
+            throw NotFoundException.create("User", userEmail);
+        }
+
+        List<Slot> slots = new ArrayList<>();
+        for (Integer id : ids) {
+            Slot slot = slotService.findSlotById(id);
+            if (slot.getUser() == null || !slot.isPaid()) {
+                throw NotFoundException.create("Slots", ids);
+            }
+            slots.add(slot);
+        }
+
+        userService.cancelReservation(slots);
+
+        LOG.info("{} canceled {} slots", user, slots.size());
         final HttpHeaders headers = RestUtil.createLocationHeaderFromCurrentUri("/current");
         return new ResponseEntity<>(headers, HttpStatus.OK);
     }

@@ -130,4 +130,12 @@ public class UserService {
     public User findUserByEmail(String userEmail) {
         return userDao.findByEmail(userEmail);
     }
+
+    @Transactional
+    public void cancelReservation(List<Slot> slots) {
+        for (Slot slot : slots) {
+            slotService.changePaidStatus(slot, false);
+            slotService.setSlotOwner(slot, null);
+        }
+    }
 }

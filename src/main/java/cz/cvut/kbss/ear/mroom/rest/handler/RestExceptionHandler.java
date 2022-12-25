@@ -1,7 +1,7 @@
 package cz.cvut.kbss.ear.mroom.rest.handler;
 
-import cz.cvut.kbss.ear.mroom.exception.CourseAlreadyExists;
 import cz.cvut.kbss.ear.mroom.exception.NotFoundException;
+import cz.cvut.kbss.ear.mroom.exception.UserAlreadyExists;
 import cz.cvut.kbss.ear.mroom.security.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.persistence.PersistenceException;
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
  * error message is returned to the user.
  */
 @ControllerAdvice
-public class RestExceptionHandler {
+public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     private static final Logger LOG = LoggerFactory.getLogger(RestExceptionHandler.class);
 
@@ -46,9 +48,8 @@ public class RestExceptionHandler {
         return new ResponseEntity<>(errorInfo(request, e), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(CourseAlreadyExists.class)
-    public ResponseEntity<ErrorInfo> validation(HttpServletRequest request, CourseAlreadyExists e) {
-        logException(e);
+    @ExceptionHandler(UserAlreadyExists.class)
+    public ResponseEntity<ErrorInfo> userAlreadyExists(HttpServletRequest request, UserAlreadyExists e) {
         return new ResponseEntity<>(errorInfo(request, e), HttpStatus.CONFLICT);
     }
 
