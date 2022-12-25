@@ -68,16 +68,21 @@ public class Generator {
         DateFormat sdf = new SimpleDateFormat("HH:mm");
         String randomStart = (RAND.nextInt(21) + 4) + ":" + (RAND.nextInt(56) + 5);
         String randomFinish = (RAND.nextInt(21) + 4) + ":" + (RAND.nextInt(56) + 5);
-        slot.setDay(generateDay());
-        slot.setStudyroom_id(generateStudyRoom());
+
+
+
         slot.setStart(randomStart);
         slot.setFinish(randomFinish);
+        slot.setPrice(125.0);
+        System.out.println("Starttime: " + randomStart);
+        System.out.println("RandomFinish: " + randomFinish);
         return slot;
     }
 
     public static ReservationDate generateDay() {
         final ReservationDate day = new ReservationDate();
         day.setPosting_date(LocalDate.now());
+        day.setId(1);
         return day;
     }
 }

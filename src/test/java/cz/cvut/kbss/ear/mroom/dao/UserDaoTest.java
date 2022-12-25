@@ -63,14 +63,38 @@ public class UserDaoTest {
 
 
 
-//    @Test
-//    public void findBySurname() {
-//        final User u = Generator.generateUser();
-//        userDao.persist(u);
-//
-//        final User u1 = userDao.findBySurname(u.getSurname()).get(0);
-//
-//        assertEquals(u, u1);
-//    }
+    @Test
+    public void deleteUserByEmailTest() {
+        final User u = Generator.generateUser();
+        em.persist(u);
+        userDao.deleteUserByEmail(userDao.findByEmail(u.getEmail()).getEmail());
+        assertNull(userDao.findByEmail(u.getEmail()));
+    }
+
+    @Test
+    public void updateUserByEmailTest() {
+        final User u = Generator.generateUser();
+        em.persist(u);
+        String newEmail = Generator.generateUserEmail();
+        userDao.updateUserByEmail(u.getEmail(), newEmail);
+        assertEquals(u.getEmail(), newEmail);
+    }
+
+    @Test
+    public void putUpMoney() {
+        final User u = Generator.generateUser();
+        em.persist(u);
+        userDao.putUpMoney(u, 1000.0);
+        assertEquals(1000.0, userDao.findByEmail(u.getEmail()).getMoney());
+    }
+
+    @Test
+    public void withDrawMoneyTest() {
+        final User u = Generator.generateUser();
+        em.persist(u);
+        userDao.putUpMoney(u, 1000.0);
+        userDao.withdrawMoney(u, 333.0);
+        assertEquals(667.0, userDao.findByEmail(u.getEmail()).getMoney());
+    }
 
 }

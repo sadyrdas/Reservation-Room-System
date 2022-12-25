@@ -33,7 +33,7 @@ public class Slot extends AbstractEntity {
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "reservationdate", nullable = false)
-    private ReservationDate day;
+    private ReservationDate reservationDay;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "studyroom_id", nullable = true)
@@ -50,22 +50,22 @@ public class Slot extends AbstractEntity {
 
 
 
-    public Slot(String start, String finish, Double price, boolean paid, User user, ReservationDate day, StudyRoom studyRoom) {
+    public Slot(String start, String finish, Double price, boolean paid, User user, ReservationDate reservationDay, StudyRoom studyRoom) {
         this.start = start;
         this.finish = finish;
         this.paid = paid;
         this.price = price;
         this.user = user;
-        this.day = day;
+        this.reservationDay = reservationDay;
         this.studyroom_id = studyRoom;
     }
 
-    public Slot(String start, String finish, Double price, boolean paid, ReservationDate day, StudyRoom studyRoom) {
+    public Slot(String start, String finish, Double price, boolean paid, ReservationDate reservationDay, StudyRoom studyRoom) {
         this.price = price;
         this.paid = paid;
         this.start = start;
         this.finish = finish;
-        this.day = day;
+        this.reservationDay = reservationDay;
         this.studyroom_id = studyRoom;
     }
 
@@ -77,12 +77,12 @@ public class Slot extends AbstractEntity {
         return start;
     }
 
-    public ReservationDate getDay() {
-        return day;
+    public ReservationDate getReservationDay() {
+        return reservationDay;
     }
 
-    public void setDay(ReservationDate day) {
-        this.day = day;
+    public void setReservationDay(ReservationDate reservationDay) {
+        this.reservationDay = reservationDay;
     }
 
 

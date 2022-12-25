@@ -38,17 +38,6 @@ public class UserDao extends BaseDao<User> {
     }
 
     @Transactional
-    public Boolean createNewUser(User user) {
-        Objects.requireNonNull(user);
-        try {
-            em.persist(user);
-            return true;
-        } catch (NoResultException e) {
-            return false;
-        }
-    }
-
-    @Transactional
     public Boolean deleteUserByEmail(String email) {
         try {
             int rowUpdated =  em.createNamedQuery("User.deleteByEmail", User.class)

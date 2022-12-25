@@ -54,7 +54,8 @@ public class UserService {
         } else {
             User user = new User(email, first_name, last_name, password,  roles);
             user.encodePassword(passwordEncoder);
-            ret = userDao.createNewUser(user);
+            userDao.persist(user);
+            ret = true;
         }
 
         return ret;

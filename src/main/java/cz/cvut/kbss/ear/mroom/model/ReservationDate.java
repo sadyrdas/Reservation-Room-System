@@ -19,7 +19,7 @@ public class ReservationDate extends AbstractEntity {
     private LocalDate posting_date;
 
 
-    @OneToMany(mappedBy = "day")
+    @OneToMany(mappedBy = "reservationDay")
     @JsonBackReference
     private Set<Slot> slotSet;
 

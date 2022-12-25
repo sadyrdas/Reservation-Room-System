@@ -60,7 +60,7 @@ public class SlotService {
 
     @Transactional
     public void changeDay(Slot slot, ReservationDate day) {
-        slot.setDay(day);
+        slot.setReservationDay(day);
         slotDao.update(slot);
     }
 
