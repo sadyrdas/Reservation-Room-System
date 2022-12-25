@@ -53,8 +53,9 @@ CREATE TABLE Slot
 
 CREATE TABLE User_Role
 (
-    user_id integer not null primary key ,
+    user_id integer not null  ,
     role_id integer not null,
+    primary key (user_id, role_id),
     constraint fk_user foreign key (user_id) references users (id),
     constraint fk_role foreign key (role_id) references roles (id)
 );
