@@ -55,7 +55,7 @@ public class StudyroomController {
     @GetMapping(value = "/getAllAvailableRooms/{status}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<StudyRoom> getAllAvailableRooms(@PathVariable Boolean status){
         LOG.info("Got all rooms with status : {}", status);
-        return studyroomService.getRoomByStatus(status);
+        return studyroomService.getRoomsByStatus(status);
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT', 'ROLE_STUDENT')")

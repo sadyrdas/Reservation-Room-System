@@ -51,5 +51,47 @@ public class SlotDaoTest {
 
     @Test
     public void findAllSlotsByUserEmailTest() {
+        final User user = Generator.generateUser();
+        final ReservationDate reservationDate = generateDay();
+        final StudyRoom studyRoom = generateStudyRoom();
 
-    }}
+        em.persist(user);
+        em.persist(reservationDate);
+        em.persist(studyRoom);
+
+        for (int i = 0; i < 3; i++) {
+            final Slot slot = Generator.generateSlot();
+            slot.setReservationDay(reservationDate);
+            slot.setStudyroom_id(studyRoom);
+            slot.setUser(user);
+            em.persist(slot);
+        }
+
+        assertEquals(3, slotDao.findAllSlotsByUserEmail(user).size());
+    }
+
+    @Test
+    public void createSlotTest() {
+        final Slot slot = Generator.generateSlot();
+        slotDao.createNewSlot(slot);
+        assertTrue(slotDao.exists(slot.getId()));
+    }
+
+    @Test
+    public void findByPriceSlot() {
+        final User user = Generator.generateUser();
+        final Slot slot = Generator.generateSlot();
+        final ReservationDate reservationDate = generateDay();
+        final StudyRoom studyRoom = generateStudyRoom();
+        slot.setReservationDay(reservationDate);
+        slot.setStudyroom_id(studyRoom);
+        slot.setUser(user);
+
+        em.persist(user);
+        em.persist(reservationDate);
+        em.persist(studyRoom);
+        em.persist(slot);
+
+        assertEquals(slot, slotDao.findByPrice(slot.getPrice()));
+    }
+}

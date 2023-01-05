@@ -48,7 +48,6 @@ public class Generator {
         user.setLast_name("LastName" + randomInt());
         user.setEmail("email" + randomInt() + "@kbss.felk.cvut.cz");
         user.setPassword(Integer.toString(randomInt()));
-//        user.setRole_id(1); //TODO
         return user;
     }
 

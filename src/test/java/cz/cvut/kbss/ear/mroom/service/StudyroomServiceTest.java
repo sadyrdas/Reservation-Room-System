@@ -31,16 +31,22 @@ public class StudyroomServiceTest {
 
     @Test
     public void findByStatusTest(){
-        List<StudyRoom> result = studyroomService.getRoomByStatus(false);
-        assertEquals(studyRoomDao.getAvailableRooms(false), result);
+        for (int i = 0; i < 5; i++) {
+            final StudyRoom studyRoom = Generator.generateStudyRoom();
+            testEntityManager.persist(studyRoom);
+        }
+
+        List<StudyRoom> result = studyroomService.getRoomsByStatus(false);
+        assertEquals(result.size(), 5);
     }
 
     @Test
     public void updateAvailableRooms(){
         final StudyRoom studyRoom = Generator.generateStudyRoom();
+        testEntityManager.persist(studyRoom);
 
         studyroomService.updateAvailableRoom(studyRoom.getId(), true);
+        assertTrue(studyRoomDao.findById(studyRoom.getId()).isAvailable());
     }
-
 
 }

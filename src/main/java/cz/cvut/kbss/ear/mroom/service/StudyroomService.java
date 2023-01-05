@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class StudyroomService {
@@ -46,7 +45,7 @@ public class StudyroomService {
 
 
     @Transactional
-    public List<StudyRoom> getRoomByStatus(Boolean isAvailable){
+    public List<StudyRoom> getRoomsByStatus(Boolean isAvailable){
         return studyRoomDao.getAvailableRooms(isAvailable);
     }
 

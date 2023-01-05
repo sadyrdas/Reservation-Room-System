@@ -106,7 +106,7 @@ public class SlotController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<Slot> getSlotById(@PathVariable Integer id) {
-        Slot slot = slotService.getSlotById(id);
+        Slot slot = slotService.findSlotById(id);
 
         if (slot == null) {
             throw new NotFoundException("Slot with id: " + id + " doesn't exist");

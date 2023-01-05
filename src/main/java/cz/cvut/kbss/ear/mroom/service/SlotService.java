@@ -95,8 +95,4 @@ public class SlotService {
         return slotDao.findAllSlotsByUserEmail(user);
     }
 
-    @Transactional
-    public Slot getSlotById(Integer id) {
-        return slotDao.find(id);
-    }
 }

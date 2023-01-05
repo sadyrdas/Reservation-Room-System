@@ -33,7 +33,6 @@ public class UserDaoTest {
     public void findUserByEmailTest() {
         final User user = Generator.generateUser();
         em.persist(user);
-
         final User result = userDao.findByEmail(user.getEmail());
         assertNotNull(result);
         assertEquals(user.getId(), result.getId());
