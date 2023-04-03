@@ -102,13 +102,11 @@ public class UserService {
 
     @Transactional
     public void payForSlot(User user, List<Slot> slots) {
-        //TODO Do not use static price as number... Store it somewhere (maybe in enum or in database)
         double totalPrice = slots.size() * 125;
 
 
         // If User is Student sale is applied
         if (user.getRoles().get(0).getId() == 1) {
-            // TODO Maybe use Java enum instead of just number
             totalPrice *= 0.5;
             LOG.info("Discount applied for user: " + user.getLast_name());
         }
